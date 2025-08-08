@@ -1,0 +1,366 @@
+On the Evolutionary Optimisation
+of Many Objectives
+Thesis submitted for candidature for the degree of PhD
+Robin Charles Purshouse
+September 2003
+Department of Automatic Control and Systems Engineering
+The University of Sheffield
+
+
+--- PAGE 1 ---
+
+Summary
+Evolutionary algorithms based on the concept of Pareto dominance are popular and suc-
+cessful techniques for multi-objective optimisation. Such algorithms are required to obtain a
+good approximation (in terms of proximity and diversity) to trade-off surfaces of interest to
+the decision-maker.
+To achieve good performance, the design of an evolutionary optimiser should be component-
+based and application-focused. Multi-objective algorithms tend to be analysed as composites
+using empirical approaches that lack statistical rigour. This severely limits the availability of
+process knowledge, itself essential for component-level design. The thesis addresses this issue
+with a new, structured, framework for algorithm development and assessment. A rigorous,
+nonparametric statistical methodology is applied to appropriate performance indicators for
+proximity and spread. Applications of the framework can be found throughout the thesis.
+Evolutionary multi-objective theory mainly considers bi-objective problems. However,
+multi-objective applications often consider many more objectives. Thus, more theoretical
+work into the optimisation of many objectives is required. A platform for such research is
+established via consideration of the relationships that may exist between pairs of objectives.
+Three relationships — conflict, harmony, and independence — are identified, and issues and
+current research are discussed for each relationship.
+The effect of many conflicting objectives on a class of popular evolutionary multi-objective
+optimisers is considered in a detailed, exploratory investigation. The study reveals that
+conclusions drawn from bi-objective analysis cannot be generalised to higher numbers of
+conflicting objectives. The probable mechanisms that underpin the observed variation in
+behaviour are also identified and discussed.
+The thesis also demonstrates, using the rigorous empirical framework, that if indepen-
+dence exists in a multi-objective problem, then identification and exploitation of this relation-
+ship can produce improved optimiser results. An innovative method for identifying suitable
+objective-space decompositions on-line is subsequently developed, based on concepts from
+parallel evolutionary topologies and nonparametric statistics. Excellent results are obtained
+in a proof-of-principle assessment.
+i
+
+
+--- PAGE 2 ---
+
+Acknowledgments
+I would like to thank Peter Fleming for giving me the opportunity to do postgraduate
+research, for his expert support and advice, and for packing me off to nice places every so
+often.
+My thanks also go to Nick Fieller for introducing me to randomisation methods and to the
+UK Engineering and Physical Sciences Research Council for research studentship support.
+Further thank-yous are offered to my colleagues, my family, and my friends.
+ii
+
+
+--- PAGE 3 ---
+
+Statement of Originality
+Unless otherwise stated in the text, the work described in this thesis was carried out solely
+by the candidate. None of this work has already been accepted for any other degree, nor is
+it being concurrently submitted in candidature for any degree.
+Candidate:
+Robin C. Purshouse
+Supervisor:
+Peter J. Fleming
+iii
+
+
+--- PAGE 4 ---
+
+For Tina out of S-Club.
+Or maybe Rachel.
+iv
+
+
+--- PAGE 5 ---
+
+Nomenclature
+Acronyms (AGA to OR)
+AGA adaptive grid archiving
+BMDA bivariate marginal distribution algorithm
+BOA Bayesian optimisation algorithm
+D1,2 decompositions of NSGA-II
+DC divide-and-conquer
+DM decision-maker
+DTLZ Deb, Thiele, Laumanns, and Zitzler
+EA evolutionary algorithm
+EC evolutionary computing
+EDA estimation of distribution algorithm
+e-e exploration versus exploitation
+EMO evolutionary many-objective optimisation
+EMO evolutionary multi-objective optimisation
+ES evolution strategies
+GA genetic algorithm
+IC independent collection
+IFAC International Federation of Automatic Control
+MCDM multi-criteria decision-making
+M many-objective
+MIDEA multi-objective mixture-based iterated density estimation EA
+MO multi-objective optimisation
+MOEA multi-objective evolutionary algorithm
+MOGA multi-objective genetic algorithm
+NFL no-free-lunch theorem
+NN nearest neighbour
+NPGA niched Pareto genetic algorithm
+NSGA non-dominated sorting genetic algorithm
+NSGA-II elitist non-dominated sorting genetic algorithm
+OR operations research
+v
+
+
+--- PAGE 6 ---
+
+vi
+Acronyms (PAES to ZDT)
+PAES Pareto archived evolution strategy
+PBIL population-based incremental learning
+p.d.f. probability density function
+PESA(-II) Pareto envelope selection algorithm (revised)
+PROMETHEE preference ranking organisation method for enrichment evalua-
+tions
+ROI region of interest
+SBX simulated binary crossover
+SOM self-organising map
+SPEA(2) strength Pareto evolutionary algorithm (revised)
+TSP travelling salesman problem
+VEGA vector evaluated genetic algorithm
+ZDT Zitzler, Deb, and Thiele
+Greek Symbols
+α fitness sharing shaping parameter
+β parameter internal to polynomial mutation
+γ parent value for the ith decision variable
+i
+∆ spread metric
+δ parameter internal to SBX
+(cid:15) DM indifference threshold on the ith objective
+i
+ζ volume of the unit M-dimensional hypersphere
+M
+η SBX distribution parameter
+c
+η polynomial mutation distribution parameter
+m
+κ dimension of quadratic bowl in DTLZ2 g functional
+λ maximum spread indicator
+ρ index in sorted list
+σ mating restriction neighbourhood size
+mate
+σ fitness sharing niche size
+share
+ψ number of independent collections
+
+
+--- PAGE 7 ---
+
+vii
+Roman Symbols (a to Q)
+a index to an objective vector instance
+b index to a different objective vector instance
+c child value for the ith decision variable
+i
+D Hoeffding or Blum-Kiefer-Rosenblatt statistic
+d distance metric
+f fitness of the ith solution
+i
+g proximity-related functional
+GD generational distance metric
+h smoothing parameter
+i index variable
+I proximity indicator
+P
+I spread indicator
+S
+j index variable
+K Kendall sample correlation coefficient
+k index in sorting of nearest neighbours to a candidate solution
+K Epanechnikov kernel density estimator
+e
+local region of decision-space
+L
+l lower bound on the ith decision variable
+i
+M number of objectives
+n number of decision variables
+n˜ number of decision variables per sub-problem
+p probability of applying recombination to a solution
+c
+p probability of exchanging recombined decision variables
+e
+ith sub-problem
+i
+P
+p probability of applying recombination to a decision variable
+ic
+p probability of mutating a decision variable
+m
+p(mutate) probability of applying mutation to a solution
+p(recombine) probability of applying recombination to a solution
+P[t] population at time t
+Q number of objectives in independent collection
+
+
+--- PAGE 8 ---
+
+viii
+Roman Symbols (q to Z )
+R
+q index variable
+R transformation matrix
+r random number generated uniformly from [0 1]
+i
+S hypervolume metric
+s selection process
+Sh sharing function
+s selection-for-survival process
+s
+s selection-for-variation process
+v
+T sample covariance matrix
+t time or iteration number
+feasible region of decision-space
+U
+u candidate solution
+u upper bound on the ith decision variable
+i
+v candidate solution
+v variation process
+X ∗ Pareto optimal solution set
+X(cid:15)
+(cid:15)-Pareto optimal solution set
+∗
+x ith decision variable
+i
+Z set of all realisable objective vectors
+Z ∗ Pareto optimal region of objective-space
+Z A approximation set
+z ith objective
+i
+Z R region of interest in objective-space
+
+
+--- PAGE 9 ---
+
+Contents
+1 Introduction 1
+1.1 Motivation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+1.2 Outline of the Thesis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.3 Contributions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+2 Review of EMO 6
+2.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+2.1.1 Solving Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+2.1.2 Contents of the Review . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+2.2 Multi-Objective Optimisation . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+2.2.1 Fundamental Concepts . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+2.2.2 Advanced Concepts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+2.2.3 Requirements of a Multi-Objective Optimiser . . . . . . . . . . . . . . 13
+2.3 Evolutionary Algorithms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.3.1 Fundamental Concepts . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.3.2 A Generalised Evolutionary Algorithm . . . . . . . . . . . . . . . . . . 16
+2.3.3 Advanced EA Concepts . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+2.3.4 Advantages and Disadvantages . . . . . . . . . . . . . . . . . . . . . . 25
+2.4 Evolutionary Multi-Objective Optimisation . . . . . . . . . . . . . . . . . . . 26
+2.4.1 Why Use EAs for MO? . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+2.4.2 History of EMO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+2.4.3 Methods for Obtaining Good Proximity . . . . . . . . . . . . . . . . . 30
+2.4.4 Methods for Obtaining Good Diversity . . . . . . . . . . . . . . . . . . 33
+2.4.5 Preference-Based Methods . . . . . . . . . . . . . . . . . . . . . . . . . 42
+ix
+
+
+--- PAGE 10 ---
+
+CONTENTS x
+2.5 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+3 Enhancing MOGA 48
+3.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+3.2 Experimental Framework . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+3.2.1 Overall Methodology . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+3.2.2 Test Suite . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+3.2.3 Measuring Performance . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+3.2.4 Analysing Performance . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+3.3 Baseline MOEA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+3.4 Obtaining Good Proximity: The Ranking Strategy . . . . . . . . . . . . . . . 65
+3.4.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 65
+3.4.2 Preliminary Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . 65
+3.4.3 Evaluation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+3.5 Promoting Diversity: The Sharing Strategy . . . . . . . . . . . . . . . . . . . 66
+3.5.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+3.5.2 Epanechnikov Fitness Sharing . . . . . . . . . . . . . . . . . . . . . . . 68
+3.5.3 Rank-Based Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . 70
+3.6 Obtaining Good Proximity and Good Diversity: an Elitist Strategy . . . . . 77
+3.7 State-of-the-Art MOEA: Enhanced s and s Mechanisms . . . . . . . . . . . 81
+s v
+3.8 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 87
+4 Many Objectives: An Introduction 89
+4.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 89
+4.2 Relationships Between Objectives . . . . . . . . . . . . . . . . . . . . . . . . . 90
+4.2.1 Classification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 90
+4.2.2 Notation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 92
+4.3 Conflicting Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 93
+4.3.1 Definitions of Conflict . . . . . . . . . . . . . . . . . . . . . . . . . . . 93
+4.3.2 Effect on EMO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 93
+4.3.3 Remedial Measures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 94
+4.4 Harmonious Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 96
+
+
+--- PAGE 11 ---
+
+CONTENTS xi
+4.4.1 Definitions of Harmony . . . . . . . . . . . . . . . . . . . . . . . . . . 96
+4.4.2 Effect on EMO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 97
+4.4.3 Remedial Measures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 98
+4.5 Independent Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+4.5.1 Independence in the Context of EMO . . . . . . . . . . . . . . . . . . 99
+4.5.2 Effects of Independence on EMO . . . . . . . . . . . . . . . . . . . . . 99
+4.6 Existing Methods for Identifying Pair-Wise Relationships . . . . . . . . . . . 100
+4.6.1 Qualitative Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . 100
+4.6.2 Quantitative Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . 102
+4.7 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 103
+5 Many Conflicting Objectives 106
+5.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 106
+5.2 Algorithms Considered . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 108
+5.2.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 108
+5.2.2 Selection Mechanisms . . . . . . . . . . . . . . . . . . . . . . . . . . . 110
+5.2.3 Representation and Variation . . . . . . . . . . . . . . . . . . . . . . . 112
+5.3 Inquiry Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 115
+5.3.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 115
+5.3.2 Scalable Optimisation Task . . . . . . . . . . . . . . . . . . . . . . . . 115
+5.3.3 Performance Indicators . . . . . . . . . . . . . . . . . . . . . . . . . . 117
+5.3.4 Investigative Framework . . . . . . . . . . . . . . . . . . . . . . . . . . 118
+5.3.5 Introduction to Results . . . . . . . . . . . . . . . . . . . . . . . . . . 120
+5.4 Results: Mutation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 122
+5.5 Results: Recombination . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 126
+5.6 Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 130
+5.6.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 130
+5.6.2 Active Diversity Promotion Mechanisms . . . . . . . . . . . . . . . . . 131
+5.6.3 Inactive Diversity Promotion Mechanisms . . . . . . . . . . . . . . . . 135
+5.6.4 Comparison Between Mutation and Recombination . . . . . . . . . . . 138
+5.7 Effect of Population Size . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 139
+5.7.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 139
+
+
+--- PAGE 12 ---
+
+CONTENTS xii
+5.7.2 Mutation Results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140
+5.7.3 Recombination Results . . . . . . . . . . . . . . . . . . . . . . . . . . . 143
+5.7.4 Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 144
+5.8 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 147
+6 Independence Within Many Objectives 149
+6.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+6.1.1 Problem Decomposition . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+6.1.2 Decomposition-Based Evolutionary Algorithms . . . . . . . . . . . . . 150
+6.1.3 Chapter Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 151
+6.2 Experimental Methodology . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+6.2.1 Baseline Algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+6.2.2 Test Functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+6.2.3 Performance Metrics . . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+6.2.4 Analysis Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+6.2.5 Presentation of Results . . . . . . . . . . . . . . . . . . . . . . . . . . 155
+6.3 The Effect of Independence . . . . . . . . . . . . . . . . . . . . . . . . . . . . 156
+6.4 Exploiting Independence via Objective-Space Decomposition . . . . . . . . . 160
+6.4.1 Overview of the Methodology . . . . . . . . . . . . . . . . . . . . . . . 160
+6.4.2 Population Management . . . . . . . . . . . . . . . . . . . . . . . . . . 162
+6.4.3 Tests for Independence . . . . . . . . . . . . . 
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)

@@ -1,0 +1,1316 @@
+C e n t e r
+N
+f o
+o
+D
+D
+r
+r
+R
+t
+e
+R
+I
+h
+p
+a
+e
+R
+a
+l
+C
+s
+e
+r
+E
+U
+J
+a
+t
+e a
+i g
+.
+m
+A
+C
+r
+r
+h
+s
+M
+o
+e
+,
+p
+T
+l
+h
+B
+e
+.
+i
+n
+N
+r
+r
+G
+n a
+t
+i n
+o x
+C
+i l
+V
+o
+1
+G
+a
+S
+f
+S
+8
+2
+8
+e
+b
+t
+M
+2
+7
+,
+r
+u
+l o
+a
+i
+0
+6
+2
+s
+i
+n
+t
+a
+e
+5
+9
+0
+e
+n
+i o
+d
+s
+t h
+t
+5
+0
+e
+k
+U
+i
+1
+n
+y
+e
+(cid:12)
+-
+n
+m
+8
+i
+2
+v
+a
+C
+2
+e
+t
+0
+. 0
+r s
+i
+o m
+5
+i
+s
+t y
+p u t a t i o n
+
+
+--- PAGE 1 ---
+
+D
+C
+1
+2
+3
+4
+I R
+o
+E
+I
+1
+U
+2
+2
+2
+A
+t
+3
+3
+3
+3
+3
+T
+4
+4
+4
+4
+4
+C
+n
+n
+.
+.
+.
+.
+i
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+T
+t
+t r
+1
+s i
+1
+2
+3
+s
+o n
+1
+2
+3
+4
+5
+h e
+1
+2
+3
+4
+5
+n
+h
+v
+e
+o
+P
+g
+W
+C
+S
+o
+s
+D
+3
+3
+P
+T
+O
+E
+T
+E
+4
+4
+4
+E
+4
+T
+4
+4
+4
+4
+4
+4
+M
+N
+2 . 0 U s e r G u i d e
+n t s
+d u t i o n t o D I R E C T
+r o b l e m d e s r i p t i o n . . . .
+D I R E C T
+h a t i s i n l u d e d i n t h e p a
+a l l i n g D I R E C T . . . . . .
+a m p l e m a i n p r o g r a m . .
+r t o v e r v i e w o f t h e D I R E
+i v i d i n g t h e d o m a i n . . .
+. 1 . 1 D i v i d i n g o f a h y p e r
+. 1 . 2 D i v i d i n g o f a h y p e r
+o t e n t i a l l y o p t i m a l h y p e r r e
+h e D I R E C T a l g o r i t h m . .
+u r m o d i (cid:12) a t i o n t o t h e D I R
+x t e n s i o n s t o t h e D I R E C T a
+e s t P r o b l e m s
+l e m e n t a r y f u n t i o n s . . .
+. 1 . 1 C o n s t a n t f u n t i o n .
+. 1 . 2 L i n e a r f u n t i o n . .
+. 1 . 3 Q u a d r a t i f u n t i o n
+x a m p l e f o r h i d d e n o n s t r a
+. 2 . 1 G o m e z # 3 [ 1 1 ℄ . .
+e s t f u n t i o n s d e s r i b e d i n
+. 3 . 1 S h e k e l ' s f a m i l y ( S 5 , S
+. 3 . 2 H a r t m a n ' s f a m i l y ( H
+. 3 . 3 B r a n i n f u n t i o n ( B R
+. 3 . 4 G o l d s t e i n a n d P r i e
+. 3 . 5 S i x - h u m p a m e l b a k
+. 3 . 6 T w o - d i m e n s i o n a l S h
+a i n f e a t u r e s o f t h e T e s t F
+u m e r i a l r e s u l t s . . . . .
+.
+k a
+.
+.
+C T
+.
+u
+r e
+t
+.
+E
+l g
+.
+.
+.
+.
+i n
+.
+J o
+7
+3
+)
+f u
+f
+u b
+u n
+.
+. . . .
+g e . .
+. . . .
+. . . .
+a l g o r
+. . . .
+b e .
+t a n g l e
+a n g l e s
+. . . .
+C T a l g o
+o r i t h m
+. . . .
+. . . .
+. . . .
+. . . .
+t s . .
+. . . .
+n e s e t .
+, S 1 0 ) [ 7
+, H 6 ) [ 7
+[ 7 ℄ . .
+n t i o n
+u n t i o n
+e r t f u n
+t i o n s
+. . . .
+a
+.
+.
+.
+.
+i
+.
+.
+.
+.
+r
+.
+.
+.
+.
+.
+.
+.
+℄
+℄
+.
+(
+.
+.
+.
+.
+.
+.
+t h
+.
+.
+.
+.
+.
+i t
+.
+.
+.
+.
+.
+.
+.
+l .
+.
+.
+.
+G
+( C
+t i
+.
+.
+h
+[
+P
+o
+.
+.
+.
+.
+m
+.
+.
+.
+.
+.
+m
+.
+.
+.
+.
+.
+.
+.
+1 5
+.
+.
+.
+)
+6 )
+n
+.
+.
+.
+.
+.
+.
+a
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+℄
+.
+.
+.
+[ 7
+[ 1
+( S
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+n
+℄
+6
+H
+.
+.
+.
+.
+d
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+℄
+.
+.
+)
+.
+.
+.
+.
+o
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+[
+.
+.
+1
+.
+.
+.
+.
+u
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+6
+.
+.
+.
+.
+.
+.
+r
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+℄
+.
+.
+.
+.
+.
+.
+m
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+o
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+d
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+i
+.
+.
+.
+.
+(cid:12)
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+a
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+-
+1
+1
+1
+1
+1
+1
+1
+1
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+1
+1
+2
+2
+3
+7
+1
+2
+2
+2
+4
+4
+6
+6
+0
+0
+0
+0
+0
+0
+1
+1
+2
+2
+2
+4
+4
+5
+5
+7
+i
+
+
+--- PAGE 2 ---
+
+D
+P
+T
+m
+a
+T
+J
+D
+C
+N
+R
+j
+9
+N
+t
+I
+d
+h
+.
+m
+7
+h
+R
+r
+h i
+e n
+d
+t t
+h e
+M
+e p
+e n
+o r
+a l
+g
+0
+o r
+e
+E C T v 2 . 0 U s e r G u i d e
+e f a e
+s d o u m e n t i s a r e v i s i o n o f t h e 1 9 9 8 g u i d e [ 8
+t a t i o n o f D I R E C T . T h e m a j o r h a n g e s i n t h e
+(cid:15) i n l u s i o n o f t h e o r i g i n a l D I R E C T a l g o r i t h m
+(cid:15) e x t e n s i o n o f t h e a l g o r i t h m t o h a n d l e h i d d e
+(cid:15) a n d a p a r a l l e l v e r s i o n b o t h w i t h P V M a n d
+T h e o d e a n d d o u m e n t a t i o n a n b e f o u n
+r e s s :
+p : / / w w w 4 . n s u . e d u / e o s / u s e r s / / t k e l l e y / w w
+p r i m a r y o n t a t f o r D I R E C T i s
+. G a b l o n s k y
+a r t m e n t o f M a t h e m a t i s
+t e r f o r R e s e a r h i n S i e n t i (cid:12) C o m p u t a t i o n s
+t h C a r o l i n a S t a t e U n i v e r s i t y
+e i g h , N C 2 7 6 9 5 - 8 2 0 5
+a b l o n  u n i t y . n s u . e d u
+E l e t r o n i m a i l i s p r e f e r r e d .
+T h i s p r o j e t w a s s u p p o r t e d b y N a t i o n a l S i e n
+0 5 6 9 , # D M S - 9 7 1 4 8 1 1 , a n d # D M S - 0 0 7 0 6 4 1 ,
+t h C a r o l i n a S u p e r o m p u t i n g C e n t e r .
+O w e n E s s l i n g e r a n d A l t o n P a t r i k o n t r i b u t
+o d e a n d t h e t e s t p r o g r a m s .
+d
+e
+℄
+a
+n
+M
+w
+e
+a
+d
+t
+o
+s
+a
+/
+F
+n
+o V e r s i o n 1
+d e a r e
+d e s r i b e d b
+o n s t r a i n t s ,
+P I a l l s .
+t t h e f o l l o
+o p t i m i z a t i o
+o u n d a t i o n
+d a n a l l o a
+t o t h e p a r a
+o
+y
+w
+n
+g r
+t i
+l l
+f o u
+J o n
+i n g
+o d
+a n t s
+o n f
+e l v e
+r i m
+e s
+W W
+e s . h
+# D
+r o m
+r s i o
+[
+p
+1 5
+W
+t m
+M
+t
+n
+l
+h
+e
+℄
+o
+i i
+-
+,
+-
+l
+S
+e
+f
+-
+
+
+--- PAGE 3 ---
+
+D
+1
+T
+r
+t
+d
+t
+D
+a
+i
+g
+S
+1
+D
+P
+R
+w
+P
+F
+w
+s
+b
+p
+I R E C T v 2 . 0 U s e r G u i d e 1
+I n t r o d u t i o n t o D I R E C T
+h i s u s e r g u i d e o v e r s a n i m p l e m e n t a t i o n o f b o t h t h e o r i g i n a l D I R E C T a l g o -
+i t h m a n d o u r m o d i (cid:12) a t i o n , w h i h w e a l l e d D I R E C T - l . D I R E C T i s a m e t h o d
+o s o l v e g l o b a l b o u n d o n s t r a i n t o p t i m i z a t i o n p r o b l e m s a n d w a s o r i g i n a l l y
+e v e l o p e d b y J o n e s e t . a l . [ 1 5 ℄ . I t h a s b e e n u s e d i n m a n y i n d u s t r i a l a p p l i a -
+i o n s [ 1 , 2 , 4 , 5 , 6 , 1 4 ℄ . W e w i l l o n l y b r i e (cid:13) y d e s r i b e o u r m o d i (cid:12) a t i o n s t o
+I R E C T a n d h o w w e e x t e n d e d i t t o h a n d l e p r o b l e m s w i t h h i d d e n o n s t r a i n t s
+n d p o i n t t o [ 9 , 1 0 ℄ f o r f u r t h e r i n f o r m a t i o n .
+A f t e r a s h o r t i n t r o d u t i o n i n S e t i o n 1 w e d e s r i b e i n S e t i o n 2 w h a t i s
+n l u d e d i n t h e p a k a g e a n d h o w t o u s e o u r i m p l e m e n t a t i o n . S e t i o n 3 t h e n
+i v e s a s h o r t e x p l a n a t i o n o f t h e a l g o r i t h m a n d o u r m o d i (cid:12) a t i o n s . F i n a l l y
+e t i o n 4 d e s r i b e s s e v e r a l t e s t f u n t i o n s a n d r e p o r t s s o m e n u m e r i a l r e s u l t s .
+. 1 P r o b l e m d e s r i p t i o n
+I R E C T w a s d e v e l o p e d t o s o l v e p r o b l e m s o f t h e f o l l o w i n g f o r m :
+N N 0
+r o b l e m 1 ( P ) L e t a ; b 2 R ; (cid:10) = f x 2 R : a (cid:20) x (cid:20) b g , a n d f : (cid:10) ! i i i
+N
+b e L i p s h i t z o n t i n u o u s w i t h o n s t a n t (cid:13) . F i n d x 2 (cid:10) s u h t h a t o p t
+(cid:3)
+f = f ( x ) (cid:20) f + (cid:15) ; ( 1 ) o p t o p t
+h e r e (cid:15) i s a g i v e n s m a l l p o s i t i v e o n s t a n t .
+O u r e x t e n s i o n a l s o s o l v e m o r e d i Æ u l t p r o b l e m s o f t h e f o l l o w i n g f o r m :
+0 0
+r o b l e m 2 ( P ) L e t B (cid:26) (cid:10) a n d f : B ! R b e L i p s h i t z o n t i n u o u s w i t h
+(cid:3)
+o n s t a n t (cid:13) . L e t f b e
+(cid:3)
+f = m i n f ( x ) :
+x 2 B
+i n d x 2 B s u h t h a t o p t
+(cid:3)
+f = f ( x ) (cid:20) f + (cid:15) ; ( 2 ) o p t o p t
+h e r e (cid:15) i s a g i v e n s m a l l p o s i t i v e o n s t a n t .
+I f B i s n o t g i v e n a n a l y t i a l l y , w e s a y t h a t t h e p r o b l e m h a s h i d d e n o n -
+t r a i n t s . P r o b l e m s w i t h h i d d e n o n s t r a i n t s o f t e n o u r i n s o a l l e d \ b l a k -
+o x " o p t i m i z a t i o n p r o b l e m s , w h e r e t h e o b j e t i v e f u n t i o n i s g i v e n b y a o m -
+0 0 0
+u t e r p r o g r a m . N o t e t h a t p r o b l e m s o f k i n d P a n d P a r e t h e s a m e i f B = (cid:10) .
+
+
+--- PAGE 4 ---
+
+D
+2
+2
+T
+O
+e
+u
+u
+I
+o
+(cid:12)
+D
+D
+D
+D
+m
+m
+m
+D
+D
+m
+m
+h
+I R
+. 1
+h
+t t
+n
+n v
+n
+n
+f y
+t h
+l e
+I
+I
+I
+I
+a
+a
+y
+I
+I
+a
+p
+E
+e
+p
+i
+i x
+i x
+o
+e
+,
+R
+R
+R
+R
+i
+i
+f
+R
+R
+k
+i
+C T v 2 . 0 U s e r G u i d e
+U s i n g D I R E C T
+W h a t i s i n l u d e d i n t h e p a k a g e
+o d e a n d d o u m e n t a t i o n a n b e f o u n d a t t h e f o l l o w i n g W W
+: / / w w w 4 . n s u . e d u / e o s / u s e r s / / t k e l l e y / w w w / o p t i m i z a t i o n
+e y o u h a v e t h e (cid:12) l e D I R E C T v 2 . 0 . 3 . t a r . g z , d o t h e f o l l o w i n g
+r o n m e n t :
+> g u n z i p D I R E C T v 2 . 0 . 3 . t a r . g z
+> t a r - x f D I R E C T v 2 . 0 . 3 . t a r
+u u s e a o m p u t i n g e n v i r o n m e n t o t h e r t h a n U N I X , y o u m a y
+r p r o g r a m s t o u n o m p r e s s t h e (cid:12) l e s . O n e y o u h a v e u n o m
+y o u w i l l h a v e a s u b d i r e t o r y a l l e d d i r e t o n t a i n i n g t h e f o
+e t . f T h e m a i n r o u t i n e .
+s e r i a l . f S p e i a l r o u t i n e s f o r s e r i a l v e r s i o n o f D I R E C T .
+p a r a l l e l . f S p e i a l r o u t i n e s f o r p a r a l l e l v e r s i o n o f D I R E C T .
+s u b r o u t . f S u b r o u t i n e s u s e d i n D I R E C T .
+n . f S a m p l e p r o g r a m f o r t h e s e r i a l v e r s i o n o f D I R E C T . T h i s
+g r a m o p t i m i z e s t h e t e s t f u n t i o n s d e s r i b e d i n S e t i o n 4 .
+n p a r a l l e l . f S a m p l e p r o g r a m f o r p a r a l l e l v e r s i o n o f D I R E C T
+u n . f S a m p l e t e s t f u n t i o n s .
+m p i . f R o u t i n e s f o r p a r a l l e l v e r s i o n o f D I R E C T u s i n g M P I .
+p v m . f R o u t i n e s f o r p a r a l l e l v e r s i o n o f D I R E C T u s i n g P V M
+e (cid:12) l e M a k e (cid:12) l e f o r s a m p l e p r o g r a m s ( b o t h s e r i a l a n d p a r a l l
+t e s t . m d F i l e t o r u n M P I v e r s i o n o f p a r a l l e l o d e o n t h
+s u p e r o m p u t e r .
+l
+.
+e
+e
+W - a
+o d
+i n a
+n e e
+p r e
+l o w i
+s a m
+.
+l ) .
+I B
+d
+e
+n
+d
+s s
+n
+p
+M
+d r
+s . h
+U
+t o
+e d
+g (cid:12)
+l e
+S
+e
+t
+N
+l
+p
+P
+s s
+m
+I X
+u s
+t h
+e s
+r o
+/
+2
+:
+l
+e
+e
+:
+-
+2
+
+
+--- PAGE 5 ---
+
+D
+p
+u
+u
+u
+u
+T
+S
+v
+W
+v
+s
+(cid:12)
+r
+2
+I
+g
+F
+I R E C T v 2 . 0 U s e r G u i d e
+t e s t . m d F i l e t o r u n P V M v e r s i o n o f p a r a l l e l o d v m
+s u p e r o m p u t e r .
+s e r g u i d e . p s T h i s d o u m e n t .
+T o s e e i f e v e r y t h i n g w o r k s , d o t h e f o l l o w i n g :
+n i x > d d i r e t
+n i x > m a k e
+n i x > T e s t D I R e t
+h e s a m p l e p r o g r a m s h o u l d s o l v e o n e o f t h e e x a m p l e s
+e t i o n 4 .
+I n l u d e d i n t h i s p a k a g e i s t h e s e r i a l v e r s i o n o f D I R E C
+e r s i o n s b o t h f o r t h e M P I a n d t h e P V M p a r a l l e l p r o g r
+e u s e d P V M 3 . 4 a l l s i n t h e P V M v e r s i o n , a n d M P I 1
+e r s i o n . W e h a v e t e s t e d b o t h t h e P V M a n d M P I v e r s i o n
+u p e r o m p u t e r a t t h e N o r t h C a r o l i n a S u p e r o m p u t e r C
+l e s D I R m p i . f a n d D I R p v m . f o n t a i n i n t e r f a e r o u t i n e s
+e s p e t i v e l y , a n d w e r e w r i t t e n b y A l t o n P a t r i k .
+. 2 C a l l i n g D I R E C T
+n t h i s s e t i o n w e d e s r i b e t h e a l l i n g s e q u e n e f o r D I R E C T
+u m e n t s f o l l o w i n g t h e f o r m a t a s i n t h e u s e r g u i d e f o r I F F C
+i n a l l y , w e p r o v i d e t h e f o r m a t f o r s u b r o u t i n e s w h i h t h e
+(cid:15) C a l l i n g s e q u e n e
+D i r e t ( f n , x , n , e p s , m a x f , m a x T , f m i n , l , u , a l g m e
+f g l o b a l , f g l p e r , v o l p e r , s i g m a p e r , i i d a t a , i i s i z e , d
+i s i z e )
+(cid:15) A r g u m e n t s
+T h e a r g u m e n t s a r e l i s t e d i n t h e o r d e r t h e y a p p e a
+q u e n e .
+{ O n E n t r y
+e o n t h e I B M
+d e s r i b e d b e
+T a s w e l l a s p
+a m m i n g s t a n
+. 1 a l l s f o r t h
+s o n t h e I B M
+e n t e r ( N C S C
+t o M P I a n d
+a n d e x p l a i n
+O b y C h o i e t
+u s e r m u s t s u
+t h o d , I e r r o r ,
+d a t a , i d s i z e ,
+r i n t h e a l l
+3
+S P / 2
+l o w i n
+a r a l l e l
+d a r d s .
+e M P I
+S P / 2
+) . T h e
+P V M ,
+t h e a r -
+. a l . [ 3 ℄ .
+p p l y .
+l o g (cid:12) l e ,
+d a t a ,
+i n g s e -
+
+
+--- PAGE 6 ---
+
+D I R E C T v 2 .
+f
+n
+e
+m
+m
+l
+u
+a
+0 U
+n
+{
+p s
+a
+a
+{
+{
+l g
+x
+x
+m
+s e r G u i d e 4
+{ i s t h e a r g u m e n t o n t a i n i n g t h e n a m e o f t h e u s e r - s u p p l i e d
+s u b r o u t i n e t h a t r e t u r n s v a l u e s f o r t h e f u n t i o n t o b e m i n i -
+m i z e d . f n m u s t b e d e l a r e d E X T E R N A L i n t h e a l l i n g
+p r o g r a m .
+I n t e g e r . I t i s t h e d i m e n s i o n o f t h e p r o b l e m . I f n > 6 4 t h e
+p a r a m e t e r m a x o r i n t h e v a r i a b l e l i s t a t t h e b e g i n n i n g o f (cid:12) l e
+D I R e t . f m u s t b e s e t t o a l a r g e r v a l u e . m a x o r i s a p a r a m e t e r
+u s e d t o d i m e n s i o n t h e w o r k a r r a y s u s e d i n D I R E C T .
+{ D o u b l e - P r e i s i o n . I t e n s u r e s s u Æ i e n t d e r e a s e i n f u n t i o n
+v a l u e w h e n a n e w p o t e n t i a l l y o p t i m a l i n t e r v a l i s h o s e n . I t i s
+(cid:0)
+n o r m a l l y s e t t o 1 0 4 , a l t h o u g h l o w e r v a l u e s s h o u l d b e t r i e d i f
+t h e r e s u l t s o f t h e o p t i m i z a t i o n a r e u n s a t i s f a t o r y .
+f { I n t e g e r . I t i s a n a p p r o x i m a t e u p p e r b o u n d o n t h e m a x i -
+m u m n u m b e r o f f u n t i o n e v a l u a t i o n s . T h i s i s o n l y a n a p p r o x i -
+m a t e u p p e r b o u n d a r y , b e a u s e t h e D I R E C T a l g o r i t h m w i l l (cid:12) n -
+i s h t h e d i v i s i o n o f a l l p o t e n t i a l l y o p t i m a l h y p e r r e t a n g l e s . I f
+i t i s s e t t o a v a l u e h i g h e r t h a n 9 0 0 0 0 , h a n g e t h e p a r a m e t e r
+M a x f u n a t t h e b e g i n n i n g o f (cid:12) l e D I R e t . f . M a x f u n i s a p a -
+r a m e t e r u s e d t o s e t t h e d i m e n s i o n o f t h e w o r k a r r a y s u s e d i n
+D I R E C T .
+T { I n t e g e r . I t i s t h e m a x i m u m n u m b e r o f i t e r a t i o n s . D I R E C T
+w i l l s t o p b e f o r e i t (cid:12) n i s h e s a l l i t e r a t i o n s w h e n t h e m a x i m u m
+n u m b e r o f f u n t i o n e v a l u a t i o n s i s r e a h e d e a r l i e r . I f i t i s s e t
+t o a v a l u e h i g h e r t h a n 6 0 0 , h a n g e t h e p a r a m e t e r M a x d e e p
+a t t h e b e g i n n i n g o f (cid:12) l e D I R e t . f . M a x d e e p i s u s e d t o s e t t h e
+d i m e n s i o n o f t h e w o r k a r r a y s u s e d i n D I R E C T .
+D o u b l e - P r e i s i o n a r r a y o f l e n g t h n . I t d e (cid:12) n e s t h e l o w e r b o u n d s
+f o r t h e n i n d e p e n d e n t v a r i a b l e s . T h e h y p e r u b e d e (cid:12) n e d b y
+t h e o n s t r a i n t s o n t h e v a r i a b l e s i s m a p p e d t o t h e u n i t h y p e r -
+u b e i n D I R E C T . D I R E C T p e r f o r m s a l l a l u l a t i o n s o n p o i n t s
+w i t h i n t h e u n i t u b e . T h e (cid:12) n a l s o l u t i o n i s m a p p e d b a k t o
+t h e o r i g i n a l h y p e r u b e b e f o r e b e i n g r e t u r n e d t o t h e u s e r .
+D o u b l e - P r e i s i o n a r r a y o f l e n g t h n . I t d e (cid:12) n e s t h e u p p e r
+b o u n d s f o r t h e n i n d e p e n d e n t v a r i a b l e s .
+e t h o d { I n t e g e r . I t d e (cid:12) n e s w h i h m e t h o d t o u s e . T h e
+u s e r a n e i t h e r u s e t h e o r i g i n a l m e t h o d a s d e s r i b e d b y J o n e s
+e t . a l . [ 1 5 ℄ ( a l g m e t h o d = 0 ) o r u s e o u r m o d i (cid:12) a t i o n ( a l g m e t h o d
+
+
+--- PAGE 7 ---
+
+D I R E C T v
+{
+2 .
+l
+f
+f
+v
+s
+i
+i
+d
+i
+i
+O
+x
+f
+0 U s e r G u i d e
+= 1 ) . S e e s e t i o n 3 .
+o g (cid:12) l e { F i l e - H a n d l e f o r t h e l o g (cid:12) l e . D I R E C T e x p e t s t h i s (cid:12) l e t
+b e o p e n e d a n d l o s e d b y t h e u s e r o u t s i d e o f D I R E C T . W
+m o v e d t h i s t o t h e o u t s i d e s o t h e u s e r a n a d d e x t r a i n f o r m a
+t i o n s t o t h i s (cid:12) l e b e f o r e a n d a f t e r t h e a l l t o D I R E C T .
+g l o b a l { D o u b l e - P r e i s i o n . F u n t i o n v a l u e o f t h e g l o b a l o p t
+m u m . I f t h i s v a l u e i s n o t k n o w n ( t h a t i s , w e s o l v e a r e a
+1 0 0
+p r o b l e m , n o t a t e s t p r o b l e m ) s e t t h i s v a l u e t o (cid:0) 1 0 ( o r a n
+o t h e r v e r y l a r g e n e g a t i v e n u m b e r ) a n d f g l p e r ( s e e b e l o w ) t
+0 . 0 .
+g l p e r { D o u b 
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)

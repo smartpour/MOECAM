@@ -1,0 +1,224 @@
+TheoreticalComputerScience425(2012)75–103
+Contents lists available at SciVerse ScienceDirect
+Theoretical Computer Science
+journal homepage: www.elsevier.com/locate/tcs
+Hypervolume-based multiobjective optimization: Theoretical
+foundations and practical implications
+Anne Augera, Johannes Baderb, Dimo Brockhoffa,∗ , Eckart Zitzlerb
+aTAOTeamINRIASaclay—Île-de-France,LRIParisSudUniversity,91405OrsayCedex,France
+bComputerEngineeringandNetworksLab,ETHZurich,8092Zurich,Switzerland
+a r t i c l e i n f o a b s t r a c t
+Keywords: Inrecentyears,indicator-basedevolutionaryalgorithms,allowingtoimplicitlyincorporate
+Multiobjectiveoptimization user preferences into the search, have become widely used in practice to solve
+Evolutionaryalgorithms
+multiobjectiveoptimizationproblems.Whenusingthistypeofmethods,theoptimization
+Hypervolumeindicator
+goal changes from optimizing a set of objective functions simultaneously to the
+Referencepoint
+Optimalµ-distributions single-objective optimization goal of finding a set of µ points that maximizes the
+underlyingindicator.Understandingthedifferencebetweenthesetwooptimizationgoals
+is fundamental when applying indicator-based algorithms in practice. On the one hand, a
+characterization of the inherent optimization goal of different indicators allows the user
+to choose the indicator that meets her preferences. On the other hand, knowledge about
+thesetsofµpointswithoptimalindicatorvalues–theso-calledoptimalµ-distributions–
+can be used in performance assessment whenever the indicator is used as a performance
+criterion.However,theoreticalstudiesonindicator-basedoptimizationaresparse.
+One of the most popular indicators is the weighted hypervolume indicator. It allows
+to guide the search towards user-defined objective space regions and at the same time
+has the property of being a refinement of the Pareto dominance relation with the
+result that maximizing the indicator results in Pareto-optimal solutions only. In previous
+work, we theoretically investigated the unweighted hypervolume indicator in terms of
+a characterization of optimal µ-distributions and the influence of the hypervolume’s
+referencepointforgeneralbi-objectiveoptimizationproblems.Inthispaper,wegeneralize
+those results to the case of the weighted hypervolume indicator. In particular, we present
+generalinvestigationsforfiniteµ,derivealimitresultforµgoingtoinfinityintermsofa
+densityofpointsandderivelowerbounds(possiblyinfinite)forplacingthereferencepoint
+toguaranteetheParetofront’sextremepointsinanoptimalµ-distribution.Furthermore,
+we state conditions about the slope of the front at the extremes such that there is no
+finite reference point that allows to include the extremes in an optimal µ-distribution—
+contradicting previous belief that a reference point chosen just above the nadir point or
+the objective space boundary is sufficient for obtaining the extremes. However, for fronts
+where there exists a finite reference point allowing to obtain the extremes, we show that
+forµtoinfinity,areferencepointthatisslightlyworseinallobjectivesthanthenadirpoint
+is a sufficient choice. Last, we apply the theoretical results to problems of the ZDT, DTLZ,
+andWFGtestproblemsuites.
+©2011ElsevierB.V.Allrightsreserved.
+∗
+Correspondingaddress:LIX,ÉcolePolytechnique,Palaiseau,France.Tel.:+330169334113.
+E-mailaddresses:Anne.Auger@inria.fr(A.Auger),Johannes.Bader@tik.ee.ethz.ch(J.Bader),brockho@lix.polytechnique.fr(D.Brockhoff),
+Eckart.Zitzler@tik.ee.ethz.ch(E.Zitzler).
+0304-3975/$–seefrontmatter©2011ElsevierB.V.Allrightsreserved.
+doi:10.1016/j.tcs.2011.03.012
+
+
+--- PAGE 1 ---
+
+76 A.Augeretal./TheoreticalComputerScience425(2012)75–103
+1. Introduction
+Multiobjective optimization aims at optimizing several criteria simultaneously. In the last decades, evolutionary
+algorithms have been shown to be well-suited for those problems in practice [13,11]. A recent trend is to use quality
+indicatorstoturnamultiobjectiveoptimizationproblemintoasingle-objectiveonebyoptimizingthequalityindicatoritself.
+Anindicator-basedalgorithmusesaspecificqualityindicatortoassigneveryindividualasingle-objectivefitness—mostofthe
+timeproportionaltotheindicatorloss,ameasureofhowmuchthequalityindicatordecreasesifthecorrespondingindividual
+isremovedfromthepopulation.Insteadofoptimizingtheobjectivefunctionsdirectly,indicator-basedalgorithmstherefore
+aim at finding a set of solutions that maximizes the underlying quality indicator and a fundamental question is whether
+these two optimization goals coincide or how they differ. In practice, the population size of indicator-based algorithms is
+usually finite, i.e., equal to µ ∈ N, and the optimization goal changes to finding a set of µ solutions optimizing the quality
+indicator.1 We call such a set an optimal µ -distribution for the given indicator generalizing the definition given by Auger
+µ
+et al. [2]. In this case, the additional questions arise how the number of points influences the optimization goal and to
+µ µ
+whichsetof objectivevectorstheoptimal -distributionismapped,i.e.,whichsearchbiasisintroducedbychangingthe
+µ
+optimization goal. Ideally, the optimal -distribution for an indicator only contains Pareto-optimal points and an increase
+µ µ
+in covers more and more points until the entire Pareto front is covered if approaches infinity. It is clear that in general,
+µ
+twodifferentqualityindicatorsyieldaprioritwodifferentoptimal -distributions,orinotherwords,introduceadifferent
+ε
+search bias. This has for instance been shown experimentally by Friedrich et al. [19] for the multiplicative -indicator and
+the hypervolume indicator.
+Thehypervolumeindicatoranditsweightedversion[33]areparticularlyinterestingindicatorssincetheyarerefinements
+of the Pareto dominance relation [37].2 Thus, an optimal µ -distribution for these indicators contains only Pareto-optimal
+solutionsandtheset(probablyunboundedinsize)thatmaximizesthe(weighted)hypervolumeindicatorcoverstheentire
+Pareto front [18]. Many other quality indicators do not have this fundamental property. It explains the success of the
+hypervolume indicator as quality indicator applied to environmental selection of indicator-based evolutionary algorithms
+such as ESP [22], SMS-EMOA [5], MO-CMA-ES [24], or HypE [3]. Nevertheless, it has been argued that using the (weighted)
+hypervolume indicator to guide the search introduces a certain bias. Interestingly, several contradicting beliefs about this
+biashavebeenreportedintheliteraturewhichwewilldiscusslateroninmoredetail(seeSection3).Theyrangefromstating
+thatconvexregionsmaybepreferredtoconcaveregionstotheargumentationthatthehypervolumeisbiasedtowardsboundary
+solutions. In the light of those contradicting beliefs, a thorough investigation of the effect of the hypervolume indicator on
+µ
+optimal -distributions is necessary.
+Anotherimportantissuewhendealingwiththehypervolumeindicatoristhechoiceofthereferencepoint,aparameter,
+both the unweighted and the weighted hypervolume indicator depend on. The influence of this reference point on optimal
+µ
+-distributionshasnotbeenfullyunderstood,especiallyfortheweightedhypervolumeindicator,andonlyrules-of-thumb
+exist on how to choose the reference point in practice. In particular, it could not be observed from practical investigations
+how the reference point has to be set to ensure to find the extremes of the Pareto front. Several authors recommend to use
+the corner of a space that is a little bit larger than the actual objective space as the reference point [26,5]. For performance
+assessment, others recommend to use the estimated nadir point as the reference point [32,31,23]. Also here, theoretical
+investigations are highly needed to assist in practical applications.
+µ
+First theoretical studies on optimal -distributions for the (unweighted) hypervolume indicator and the choice of its
+reference point have been published in an earlier work by the authors [2]. The theoretical analyses resulted in a better
+understanding of the search bias the hypervolume indicator introduces and in theoretically founded recommendations on
+wheretoplacethereferencepointinthecaseoftwoobjectives.Inparticular,somebeliefsabouttheindicator’ssearchbias
+µ
+could be disproved and others confirmed, the optimal -distributions for linear Pareto fronts were characterized exactly
+(see also [10]), and lower bounds on the reference point’s objective values that allow to include the extremes of the Pareto
+front in certain cases have been given. Recently, a specific result of Auger et al. [2] has been already generalized to the
+weighted hypervolume indicator [1] and another exact result for specific Pareto fronts have been provided [19].
+In this paper, we extend all results by Auger et al. [2] to the weighted case and provide a general theory of the
+weighted hypervolume indicator in terms of both the inherently introduced search bias and the choice of the reference
+point.
+• Inparticular,wecharacterizethesetsof µ pointsthatmaximizethe(weighted)hypervolumeindicator;besidesgeneral
+µ µ
+investigations for finite , we derive a limit result for going to infinity in terms of a density of points. The presented
+results for the weighted hypervolume indicator comply with the results for the unweighted case [2].
+• Furthermore,weinvestigatetheinfluenceofthereferencepointonoptimal µ -distributions,i.e.,wederivelowerbounds
+for the objective values of the reference point (possibly infinite) for guaranteeing the Pareto front’s extreme points in
+µ
+an optimal -distribution and investigate cases where the extremes are never contained in such a set; these results
+generalize the work by Auger et al. [2] to the weighted hypervolume indicator.
+1 Sometimes,thepopulationsizemightnotbefixed,e.g.,whendeletingalldominatedsolutions,butthemaximumnumberofsimultaneouslyconsidered
+solutionsistypicallyupperboundedbyaconstantµ.
+2 OtherstudiesintroducedtheequivalenttermsofbeingcompatibleorcompliantwiththeParetodominancerelation[27,38].
+
+
+--- PAGE 2 ---
+
+A.Augeretal./TheoreticalComputerScience425(2012)75–103 77
+• In addition, we prove, in case the extremes can be obtained, that for any reference point dominated by the nadir point
+µ
+– with any small but positive distance between the two points – there is a finite number of points (possibly large in
+0
+µ > µ µ
+practice) such that for all , the extremes are included in optimal -distributions.
+0
+• Last, we apply the theoretical results to linear Pareto fronts [2,10] and to benchmark problems of the ZDT [34], DTLZ
+[15], and WFG [21] test problem suites resulting in recommended choices of the reference point including numerical
+and sometimes analytical expressions for the resulting density of points on the front.
+The paper is structured as follows. First, we recapitulate the basics of the (weighted) hypervolume indicator and introduce
+the notations and definitions needed in the remainder of the paper (Section 2). Then, we consider the bias of the weighted
+µ µ
+hypervolumeindicatorintermsofoptimal -distributions.Aftercharacterizingoptimal -distributionsforafinitenumber
+of solutions (Section 3.1), we derive results on the density of points if the number of points goes to infinity (Section 3.2).
+µ
+Section 4 investigates the influence of the reference point on optimal -distributions especially on the extremes. The
+application of the results to test problems is presented in Section 5, and Section 6 concludes the paper.
+2. The hypervolume indicator: general aspects and notations
+Throughout this study we consider, without loss of generality, minimization problems where k objective functions
+F : X → Z, 1 ≤ i ≤ k have to be minimized simultaneously. The vector function F := (F ,...,F ) thereby maps
+i 1 k
+each solution x in the decision space X to its corresponding objective vector F ( x ) in the objective space F ( X ) = Z ⊆ Rk.
+Furthermore,weassumethattheunderlyingdominancestructureisgivenbytheweakParetodominancerelation≼which
+isdefinedbetweenarbitrarysolutionpairs.Wesayx ∈ X weaklydominatesy ∈ X ifforall1 ≤ i ≤ k,F ( x ) ≤ F ( y ) andwrite
+i i
+x ≼ y. This weak Pareto dominance relation is generalized to sets of solutions in the following straightforward manner: we
+say a set A of solutions weakly dominates another solution set B if for all b ∈ B there exists an a ∈ A such that a ≼ b. The
+Pareto(-optimal)set P consistsofallsolutionsx ∗ ∈ X,suchthatthereisnox ∈ X thatsatisfiesx ≼ x ∗ andx ∗ ̸≼ x.Theimage
+s
+ofP underF iscalledPareto(-optimal)front orfront forshort.WealsousetheweakParetodominancerelationnotation≼
+s
+among objective vectors, i.e., for two objective vectors x = ( x ,..., x ), y = ( y ,..., y ) ∈ Rk we define x ≼ y if and only
+1 k 1 k
+if for all 1 ≤ i ≤ k : x ≤ y .
+i i
+In the following, in order to simplify notations,3 we define the indicators for sets of objective vectors A ⊆ Rk instead for
+solutionsetsA ′ ⊆ X asitwasalreadydonebefore[33,2].TheweightedhypervolumeindicatorI H,w ( A , r ) forasetofobjective
+vectors A ⊆ Z is then the weighted Lebesgue measure of the set of objective vectors weakly dominated by the solutions in
+A that at the same time weakly dominate a so-called reference point r ∈ Z [3]4:
+
+I H,w ( A , r ) = w( z ) 1 H(A,r) ( z ) dz (1)
+Rk
+where H ( A , r ) := {z ∈ Z |∃a ∈ A : a ≼ z ≼ r}, 1 H(A,r) ( z ) is the characteristic function of H ( A , r ) that equals 1 iff
+z  ∈ H ( w A ( , z r ) ) d a z n < d 0 ∞ ot f h o e r r a w n i y se γ , a > nd 0, w w : he R r k e B → ( 0 , R γ > ) 0 i i s s t a he st o r p ic e t n ly b p a o ll s c it e iv n e te w re e d ig i h n t 0 fu a n n c d ti o o f n ra in d t iu eg s r γ ab . I l n e o o t n h a e n r y w b o o rd u s n , d w ed e a se ss t u , i m .e e .,
+B(0,γ)
+thatthemeasureassociatedto w is σ -finite.5 Throughoutthepaper,thenotationI referstothenon-weightedhypervolume
+H
+wheretheweightis1everywhere,andwewillexplicitlyusethetermnon-weightedhypervolumeforI whiletheweighted
+H
+hypervolume indicator I H,w is, for simplicity, referred to as hypervolume.
+The left-hand plot of Fig. 1 illustrates the hypervolume I H,w for a bi-objective problem. The three-objective plot shows
+w
+the objective values of nine points on the first two axes and the weight function on the third axis. The hypervolume
+( )
+indicator I H,w A for the set A of nine points equals the integral of the weight function over the objective space that is
+weakly dominated by the set A and which weakly dominates the reference point r = ( r , r ) .
+1 2
+Inwhatfollows,weconsiderbi-objectiveproblems.TheParetofrontcanthusbedescribedbyaone-dimensionalfunction
+f mapping the image of the Pareto set under the first objective F onto the image of the Pareto set under the second
+1
+objective F ,
+2
+f : x ∈ D → f ( x ),
+where D denotes the image of the Pareto set under the first objective. D can be, for the moment, either a finite or an
+infiniteset. Anillustrationisgiven intheright-handplot of Fig.1where the functionf describingthefront hasadomainof
+D = [x , x ].
+min max
+3 Consideringanindicatoronsolutionsetsintroducesthepossibilityofsolutionsthatmaptothesameobjectivevector.Addingsuchaso-calledindifferent
+solutiontoasolutionsetdoesnotaffecttheset’shypervolumeindicatorvaluebuttheconsiderationofsuchsolutionsmakesthetextlessreadableifwe
+wanttostatetheresultsformallycorrect.
+4 InsteadofareferencesetasbyBaderandZitzler[3],weconsideronereferencepointonlyasinearlierpublications[33].
+5 Severalresultspresentedinthispaperalsoholdiftheweightisstrictlypositivealmosteverywhere,i.e.,itcanbe0fornullsets.However,wedecided
+toconsideronlystrictlypositiveweightstokeeptheproofssimple.
+
+
+--- PAGE 3 ---
+
+78 A.Augeretal./TheoreticalComputerScience425(2012)75–103
+Fig.1.ThehypervolumeindicatorIH,w (A)correspondstotheintegralofaweightfunctionw(z)overthesetofobjectivevectorsthatareweaklydominated
+byasolutionsetAandinadditionweaklydominatethereferencepointr (hatchedareas).Ontheleft,thesetAconsistsofnineobjectivevectorswhereas
+ontheright,theinfinitesetAcanbedescribedbyafunctionf : [xmin ,xmax ] → R.Theleft-handplotshowsanexampleofaweightfunctionw(z),where
+forallobjectivevectorsz thatarenotdominatedbyAornotenclosedbyr thefunctionw isnotplotted,suchthattheweightedhypervolumeindicator
+correspondstothevolumeofthegrayshape.
+Example 1. Consider the bi-objective problem DTLZ2 [15] which is defined as
+minimize F ( d ) =  1 + g ( d ) cos ( d π/ 2 )
+1 M 1
+minimize F ( d ) =  1 + g ( d ) sin ( d π/ 2 )
+2 M 1
+g ( d ) =  ( d − 0 . 5 )2 (2)
+M i
+subject to 
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)

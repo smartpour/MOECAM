@@ -1,0 +1,278 @@
+See discussions, stats, and author profiles for this publication at: https://www.researchgate.net/publication/319098122
+Performance metrics in multi-objective optimization
+Conference Paper · October 2015
+DOI: 10.1109/CLEI.2015.7360024
+CITATIONS READS
+125 1,958
+3 authors:
+Nery Riquelme-Granada Christian Von Lücken
+Royal Holloway, University of London Universidad Nacional de Asunción
+3 PUBLICATIONS 125 CITATIONS 25 PUBLICATIONS 495 CITATIONS
+SEE PROFILE SEE PROFILE
+Benjamin Baran
+Universidad Nacional de Asunción
+192 PUBLICATIONS 1,953 CITATIONS
+SEE PROFILE
+Some of the authors of this publication are also working on these related projects:
+Quantum Computing - Paraguay View project
+Software-defined Datacenters (SDDC) View project
+All content following this page was uploaded by Nery Riquelme-Granada on 30 November 2017.
+The user has requested enhancement of the downloaded file.
+
+
+--- PAGE 1 ---
+
+Performance metrics in multi-objective optimization
+Nery Riquelme Christian Von Lu¨cken Benjam´ın Bara´n
+National University of Asuncion National University of Asuncion National University of Asuncion
+Asuncion, Paraguay Asuncion, Paraguay Universidad Nacional del Este
+Email: neryriquelme90@gmail.com Email: clucken@pol.una.py Email: bbaran@pol.una.py
+Abstract—In the last decades, a large number of metrics amining and taking as reference the works published in EMO
+has been proposed to compare the performance of different (Evolutionary Multi-Criterion Optimization) conferences [4],
+evolutionary approaches in multi-objective optimization. This
+[5], [6], [7] and [8]. EMO is one of the most relevant event
+situation leads to difficulties when comparisons among the output
+specialized in evolutionary multi-objective optimization. The
+of different algorithms are needed and appropriate metrics must
+be selected to perform those comparisons. Hence, no complete main motivation behind this study is the lack of research works
+agreement on what metrics should be used exists. This paper that cover in details the usage and tendency of performance
+presents a review and analysis of 54 multi-objective-optimization metrics for the multi-objective optimization field, their advan-
+metrics in the specialized literature, discussing the usage, ten-
+tages and disadvantages. In fact, it is important for researchers
+dency and advantages/disadvantages of the most cited ones in
+in the multi-objective optimization field to know which metrics
+order to give researchers enough information when choosing
+metrics is necessary. The review process performed in this are the most convenient to quantify a given behavior. The idea
+work indicates that the hypervolume is the most used metric, of this work was born when discussing which metric should
+followed by the generational distance, the epsilon indicator and be used to prove the advantages of a new algorithm developed
+the inverted generational distance.
+by some of the authors [9].
+The rest of the paper is organized as follows: definitions
+I. INTRODUCTION
+and multi-objective optimization concepts are introduced in
+Evolutionary Algorithms (EAs) proved to be capable of
+Section II. Then, the general methodology followed in this
+finding a good approximation to the Pareto optimal front in
+work and the key research questions are presented in Section
+Multi-objective Optimization Problems (MOPs) where there
+III. Next, Section IV covers the results obtained and the
+exist two or more conflicting objective functions. In con-
+corresponding analysis considering usage and tendency of per-
+sequence, many EAs have been proposed during the last
+formance metrics. Finally, Section V presents the conclusions
+decades, giving rise to the need of establishing comparison
+and future works.
+methods in order to measure the quality of the solution sets
+obtained by different algorithms. In general, the performance II. DEFINITIONS
+of an EA is evaluated using experimental tests and, as a Before analyzing in detail the information concerning the
+consequence, several performance metrics have been defined characteristics, usage and tendency of performance metrics,
+for this purpose. Metrics consider mainly three aspects of a we formalize the basic concepts and terms used throughout
+solution set [1]: the rest of the paper.
+• the convergence, i.e. the closeness to the theoretical
+A. Decision variables
+Pareto optimal front;
+• the diversity: distribution as well as spread; and The decision variables are the numerical quantities for
+• the number of solutions. which values are to be chosen in an optimization problem
+[10]. These independent variables can be denoted as x ,
+Hence, it becomes intuitive to classify metrics considering j
+j = {1,2....,n}.
+the three aspects they account for. Alternatively, metrics usu-
+Then, a vector x containing n decision variables can be
+ally are also categorized taking into consideration the number
+represented by:
+of solution sets they can simultaneously evaluate. In this
+regard, a metric may be unary or binary (h-ary in general) x= [x ,x ....,x ]T
+1 2 n
+as will be discussed in Section II.
+B. Objective functions
+The real importance of studying metrics resides on their
+extended acceptance in the specialized community to perform Objective functions are computable functions applied over
+experimental studies that are necessary to reflect in some way the decision variables in order to have some criteria to evaluate
+the output quality of different algorithms as well as to compare the quality of a certain solution. They can be denoted as
+various approaches. Previous analysis and reviews on metrics f (x),f (x)..,f (x), where K is the number of objective
+1 2 K
+can be found in [1], [2] and [3]. functions in the optimization problem being solved [10]. Then,
+This paper presents a detailed study of performance metrics, a vector function containing K objective functions can be
+analyzing their usage and behavior throughout last years, ex- represented by:
+
+
+--- PAGE 2 ---
+
+F(x) = [f (x),f (x)....,f (x)]T used when PF∗ is unknown, containing all non-dominated
+1 2 K
+solutions already known.
+C. Spaces
+It is worth emphasizing that for practical real-world applica-
+An Euclidean n-space is defined as the set of all n-tuples of tions, it is not always necessary to calculate the Pareto optimal
+real numbers Rn. When dealing with MOPs, two Euclidean set being enough the calculation of a good approximation to
+spaces are covered [10]: it with its corresponding Pareto front approximation.
+• the n-dimensional decision space, denoted as Ω, in which
+G. Approximation set
+decision variables coexist and where each coordinate axis
+corresponds to a component of vector x; and An approximation set is defined by Zitzler et al. as follows
+• the K-dimensional objective space, denoted as Λ, in [2]: let A ⊆ Λ be a set of objective vectors. A is called an
+which objective functions coexist and where each coor- approximation set if any element of A does not dominate
+dinate axis corresponds to a component of vector F(x). or is not equal to any other objective vector in A. The set
+of all approximation sets is denoted as Z. As mentioned
+Notice that each point in Ω has its corresponding point in Λ.
+above, the result of solving a real-world problem usually is an
+The former point represents a solution and the latter represents
+approximation set A and not the Pareto optimal front PF∗.
+the quality of this solution. It is worth mentioning that more
+than one point in Ω may be mapped to the same point in Λ. H. Performance metric
+For practical purposes, we consider that Ω contains only the
+Given h approximation sets A ∈ Z,i = 1,2...h, an h-
+i
+feasible solutions.
+ary performance metric or quality indicator, I, is defined by
+D. Multi-objective Optimization Problem (MOP) Zitzler et al. in [2] as a function I : Zh (cid:55)→ R, which assigns
+to each set (A ,A ,...,A ) a real value I(A ,A ,...,A )
+A general MOP is defined as: 1 2 h 1 2 h
+usually used to compare the quality of different algorithms
+when solving MOPs.
+
+optimize F(x)
+
+subject to g (x) ≤ 0 s = 1,2,3...S; I. Metrics classification
+s
+ h (x) = 0 j = 1,2,3...J; As said before, there are two main ways of categorizing
+j
+metrics. The first classification criterion considers the aspects
+For a MOP, an EA optimizes (minimizes/maximizes) the K
+that metrics measure when evaluating the approximation sets
+objective functions contained in the vector F(x).
+in Z. Considering an approximation set A, as it will be shown
+g (x) ≤ 0 and h (x) = 0 represent constraints that must
+s j
+in Table IV, the metrics can be grouped as [1]:
+be fulfilled while optimizing F(x) and Ω contains all feasible
+x satisfying all restrictions that can be used to optimize an • Cardinality metrics: the cardinality of A refers to the
+objective function F(x). number of solutions that exists in A. Intuitively, a larger
+number of solutions is preferred.
+E. Pareto Dominance • Accuracy metrics: this aspect refers directly to the
+Given two vectors x, x(cid:48) ∈ Ω, the vector x is said to dominate convergence of A. In other words, it indicates how distant
+x(cid:48), x (cid:31) x(cid:48), iff x is not worse than x(cid:48) in any objective function is A from the theoretical Pareto optimal front PF∗.
+and it is strictly better in at least one objective function [11]. Notice that when the Pareto optimal front is unknown,
+If neither x dominates x(cid:48), nor x(cid:48) dominates x, x and x(cid:48) are a reference set R is considered instead.
+said to be no-comparable, denoted as x ∼ x(cid:48). • Diversity metrics: distribution and spread are two very
+closely related facets, yet they are not completely the
+F. Pareto optimal set and Pareto optimal front same [1]. The distribution refers to the relative distance
+For a given MOP, the Pareto optimal set (P∗) is the among solutions in A [11] while the spread refers to the
+set containing all the solutions that are non-dominated with range of values covered by the solutions in A [3]. The
+respect to Ω. It can be denoted [12]: spread is also known as ”the extent” of an approximation
+set.
+P∗ := {x ∈ Ω|¬∃x(cid:48) ∈ Ω such that x(cid:48) (cid:31) x} (1) The second classification criterion can be easily deduced
+from the formal definition of performance metric given in
+Then, for a given MOP and its corresponding Pareto optimal
+Section II-H. It takes into consideration the number h of
+set P∗, the Pareto optimal front (PF∗) is the result of mapping
+approximation sets that will be evaluated by the metric. Two
+P∗ to Λ. PF∗ is defined as [12]:
+types of metrics have been used in the specialized literature:
+PF∗ := {F(x) ∈ Λ | x ∈ P∗} (2) • Unary metrics: The metric is said to be unary if it
+receives as parameter only one approximation set A to be
+There are cases, specially in real-world problems, when evaluated. Formally, an unary metric is a function denoted
+the Pareto optimal front cannot be calculated for diverse as I(A) : Z (cid:55)→ R.
+reasons. Then, a reference set R can be considered. A reference • Binary metrics: The metric is said to be binary if it
+set is an approximation to the Pareto optimal front that is receives as parameter two approximation sets, A and B,
+
+
+--- PAGE 3 ---
+
+to be compared. Formally, a binary metric is a function TABLE I
+denoted as I(A,B) : Z2 (cid:55)→ R. ALL PERFORMANCE METRICS CITED IN EMO CONFERENCE FROM 2005
+TO 2013
+Notice that unary metrics give a real value after considering
+one or more of the three aspects mentioned above while Id Performance metrics Symbol
+1 Attainment functions approach metric [14] -
+binary metrics consider mainly the relationship between two
+2 Convergence metric [15] CM
+approximation sets in terms of dominance to give an idea of 3 Cluster metric [16] Clµ
+which one is better. It is worth mentioning that unary metrics 4 Consolidation Ratio [17] CR
+5 Contribution metric [18] -
+that measure accuracy need one of the following parameters:
+6 Convergence index [19] -
+1) a reference point. This parameter is specifically used to 7 Convergence measure [20] Υ
+compute the hypervolume metric [13] and it is employed 8 Coverage [21] -
+9 Coverage of the front [22] -
+to calculate the space covered by solutions in the objec-
+10 D metric [23] D
+tive space Λ; 11 D quantifier [24] -
+2) metrics like GD, IGD, Υ, etc. require the points in 12 D1R [25] -
+13 Distance-based indicator [26] D
+the Pareto optimal front PF∗ to calculate convergence. (p)
+14 Diversity metric [15] DM
+When PF∗ is unknown, a reference set R is used to 15 Dominance-based quality [27] DQp
+estimate the closeness to PF∗. 16 Entropy metric [28] -
+17 Epsilon family [2] (cid:15)
+It is important to remark that the vast majority of existing 18 Generational distance [12] GD
+metrics are unary. This fact will be easily noticed in Table IV. 19 Hypervolume [13] HV
+20 Hypercube-based diversity metric [20] -
+A more detailed discussion on unary and binary metrics,
+21 Inverted generational distance [29] IGD
+their advantages and limitations, can be found in [2]. 22 M∗ metric [3] M∗
+1 1
+23 M∗ metric [3] M∗3
+III. METHODOLOGY 24 M 3 ∗ metric Improved [30] -
+3
+25 Maximum crowding distance [31] MCD
+This section describes the general methodology followed in
+26 Mean Absolute Error [32] -
+this work to analyze the state-of-the-art usage of performance 27 Minimal distance graph [33] MDG
+metrics in evolutionary multi-objective optimization bench- 28 Mutual domination rate [34] MDR
+29 Non-dominated evaluation metric [11] -
+marking.
+30 ONVG [35] -
+First, it was necessary to define an universe of articles 31 Overall Pareto Spread [16] -
+to be analyzed. EMO is a bi-annual international conference 32 Population per run [36] -
+33 R-metric [37] R
+series, dedicated to advances in the theory and practice of
+34 Ratio of non-dominated individuals [38] RNI
+evolutionary multi-criterion optimization [8]. EMO conference 35 Ratio of non-dominated solutions [39] -
+was selected to serve as source of information for this study 36 Relations between non-dominated fronts [40] -
+37 Spacing [35] Sp
+since it is a top event in the field and hence it can reflect
+38 Sparsity Index [19] -
+the real state of the art. This survey covers the 3rd (2005) 39 Spread measure [41] -
+[4], 4th (2007) [5], 5th (2009) [6], 6th (2011) [7] and 7th 40 Spread metric [42] -
+41 Spread: Delta indicator [11] ∆
+(2013) [8] editions of EMO. The 8th (2015) edition [54] was
+42 Spread: Generalized Spread [43] ∆∗
+not included since its proceedings were published after this 43 Success Counting [44] SCC
+survey was completed. 44 Sum of maximum objective values [45] Smax
+45 The adjusted Rand Index [46] -
+After defining the universe of articles and since the scope of
+46 The average distance of points to the PF [47] -
+EMO is quiet extensive, an inclusion criterion was established 47 The delineation metric [48] -
+to have the samples of relevant articles for this study. Let U 48 The diversity metric [48] -
+49 The front Spread [49] FS
+be the universe of articles containing all the research works
+50 The front to Set Distance [49] (DPF¿S)
+published in the five mentioned editions of EMO and x an 51 Two set coverage [50] C
+article, the set of relevant articles W was fulfilled according 52 µ d metric [51] µ d
+to the following inclusion criterion:
+53 Volume measure [52] Vp(A)
+54 (cid:15)-performance metric [53] -
+W := {x ∈ U|x uses at least one performance metric}
+With the inclusion criterion properly defined, the research • What metrics were used the most at each EMO edition?
+questions that this work aims to answer can be presented: • What is the tendency of the most-used metrics?
+• What is the set of performance metrics used by the EMO • What metrics tend to decrease/increase in usage?
+community? how has that set of performance metrics • What is the average number of metrics used per article
+in EMO?
+evolved?
+• Considering each edition of EMO individually, what is the
+percentage of articles that apply at least one performance To calculate the tendency of the performance metrics we
+metric? how has that percentage varied throughout EMO used the least squares regression approach.
+editions? From a total of 262 articles published in the five considered
+
+
+--- PAGE 4 ---
+
+TABLE II
+TOTAL OF WORKS PUBLISHED IN EMO EDITIONS AND THE NUMBER OF WORKS THAT USES PERFORMANCE METRICS
+EMO EMO EMO EMO EMO
+Articles Total
+2005 2007 2009 2011 2013
+Published articles (U) 59 65 39 42 57 262
+Articles using metrics (W) 33 29 23 21 33 13
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)

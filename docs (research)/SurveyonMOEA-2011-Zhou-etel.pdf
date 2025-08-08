@@ -1,0 +1,190 @@
+SwarmandEvolutionaryComputation1(2011)32–49
+Contents lists available at ScienceDirect
+Swarm and Evolutionary Computation
+journal homepage: www.elsevier.com/locate/swevo
+Survey paper
+Multiobjective evolutionary algorithms: A survey of the state of the art
+Aimin Zhoua,∗ , Bo-Yang Qub, Hui Lic, Shi-Zheng Zhaob, Ponnuthurai Nagaratnam Suganthanb,
+Qingfu Zhangd
+aComputerScienceandTechnologyDepartment,EastChinaNormalUniversity,Shanghai,200241,China
+bSchoolofElectricalandElectronicEngineering,NanyangTechnologicalUniversity,639798,Singapore
+cSchoolofScience,XianJiaotongUniversity,Xian,710049,China
+dSchoolofComputerScienceandElectronicEngineering,UniversityofEssex,Colchester,CO43SQ,UK
+a r t i c l e i n f o a b s t r a c t
+Articlehistory: A multiobjective optimization problem involves several conflicting objectives and has a set of Pareto
+Received1February2011 optimalsolutions.Byevolvingapopulationofsolutions,multiobjectiveevolutionaryalgorithms(MOEAs)
+Receivedinrevisedform are able to approximate the Pareto optimal set in a single run. MOEAs have attracted a lot of research
+2March2011
+effort during the last 20 years, and they are still one of the hottest research areas in the field of
+Accepted5March2011
+evolutionary computation. This paper surveys the development of MOEAs primarily during the last
+Availableonline16March2011
+eightyears.Itcoversalgorithmicframeworkssuchasdecomposition-basedMOEAs(MOEA/Ds),memetic
+MOEAs, coevolutionary MOEAs, selection and offspring reproduction operators, MOEAs with specific
+Keywords:
+search methods, MOEAs for multimodal problems, constraint handling and MOEAs, computationally
+Multiobjectiveoptimization
+Evolutionarymultiobjectiveoptimization expensivemultiobjectiveoptimizationproblems(MOPs),dynamicMOPs,noisyMOPs,combinatorialand
+Multiobjectiveevolutionaryalgorithms discreteMOPs,benchmarkproblems,performanceindicators,andapplications.Inaddition,somefuture
+Multicriteriadecisionmaking researchissuesarealsopresented.
+©2011ElsevierB.V.Allrightsreserved.
+1. Introduction Definition 1. A vector u = ( u ,..., u )T is said to dominate
+1 m
+another vector v = (v ,...,v )T, denoted as u ≺ v , iff ∀i ∈
+1 m
+Many real-world optimization problems involve multiple ob- {1 ,..., m}, u i ≤ v i and u ̸= v .
+jectives.Amultiobjectiveoptimizationproblem(MOP)canbemath-
+Definition 2. A feasible solution x ∗ ∈ Ω of problem (1) is called
+ematically formulated as
+a Pareto optimal solution, iff (cid:64)y ∈ Ω such that F ( y ) ≺ F ( x ∗) . The
+minimize F ( x ) = ( f ( x ),..., f ( x ))T set of all the Pareto optimal solutions is called the Pareto set (PS),
+s.t. x ∈ Ω, 1 m (1) denoted as
+PS = {x ∈ Ω|(cid:64)y ∈ Ω, F ( y ) ≺ F ( x )}.
+where Ω is the decision space and x ∈ Ω is a decision vector. F ( x )
+consistsofmobjectivefunctionsf : Ω → R , i = 1 ,..., m,where The image of the PS in the objective space is called the Pareto front
+i
+Rm is the objective space. (PF)
+The objectives in (1) often conflict with each other. Improve- PF = {F ( x )|x ∈ PS}.
+ment of one objective may lead to deterioration of another. Thus,
+a single solution, which can optimize all objectives simultane- Due to their population-based nature, evolutionary algorithms
+ously, does not exist. Instead, the best trade-off solutions, called (EAs) are able to approximate the whole PS (PF) of an MOP in
+theParetooptimalsolutions,areimportanttoadecisionmaker (DM). a single run. There has been a growing interest in applying EAs
+The Pareto optimality concept, which was first proposed by Edge- to deal with MOPs since Schaffer’s seminal work [4], and these
+worth and Pareto [1], is formally defined as follows [2,3]. EAs are called multiobjective evolutionary algorithms (MOEAs). By
+January 2011, more than 56001 publications have been published
+∗
+Correspondingauthor.
+E-mailaddresses:amzhou@cs.ecnu.edu.cn(A.Zhou),e070088@ntu.edu.sg 1 The statistical data is based on the paper repository in the EMOO web site,
+(B.-Y.Qu),lihui10@mail.xjtu.edu.cn(H.Li),zh0047ng@ntu.edu.sg(S.-Z.Zhao), http://delta.cs.cinvestav.mx/~ccoello/EMOO/, which is maintained by Professor
+epnsugan@ntu.edu.sg(P.N.Suganthan),qzhang@essex.ac.uk(Q.Zhang). CoelloCoello.
+2210-6502/$–seefrontmatter©2011ElsevierB.V.Allrightsreserved.
+doi:10.1016/j.swevo.2011.03.001
+
+
+--- PAGE 1 ---
+
+A.Zhouetal./SwarmandEvolutionaryComputation1(2011)32–49 33
+on evolutionary multiobjective optimization. Among these pa- solution on to some (or all) of its neighboring subproblems, which
+pers, 66.8% have been published in the last eight years, 38.4% willupdatetheircurrentsolutionsifthereceivedsolutionisbetter.
+are journal papers and 42.2% are conference papers. The research A major advantage of MOEA/Ds is that a scalar objective local
+work on MOEAs has been surveyed from different aspects. Among search can be used in each subproblem in a natural way since its
+these surveys, some are mainly on generic methodologies [5–12]; task is for optimizing a scalar objective subproblem.
+some are on theoretical developments and applications [13,14]; SeveralimprovementsonMOEA/Dshavebeenmaderecently.Li
+some work focus on special methods for MOPs, for example sim- andZhang[29]suggestedusingtwodifferentneighborhoodstruc-
+ulated annealing (SA) [15], particle swarm optimization (PSO) [16], tures for balancing exploitation and exploration. Zhang et al. [30]
+and memetic algorithms [17]; some are on combinational prob- proposed a scheme for dynamically allocating computational ef-
+lems [18,19]; and others are on special applications, such as engi- forts to different subproblems in an MOEA/D in order to reduce
+neering problems [14,20,21], scheduling problems [22], economic the overall cost and improve the algorithm performance. This im-
+and finance problems [23], automatic cell planning problems [24], plementationofMOEA/Disefficientandeffectiveandhaswonthe
+traveling salesman problems [25], and preferences in MOPs [26]. Congress on Evolutionary Computation (CEC) 2009 MOEA competi-
+However,nocomprehensivesurveyhasbeenconductedonMOEA tion[31].NebroandDurillo[32]developedathread-basedparallel
+development in recent years [6]. version of MOEA/D, which can be executed on multicore comput-
+In this paper, we focus on recent developments on MOEAs. Our ers. Palmers et al. [33] proposed an implementation of MOEA/D in
+major concern is on continuous MOPs, while the works on com- whicheachsubproblemrecordsmorethanonesolution.Ishibuchi
+binational MOPs are covered in [19]. The remainder of this pa- et al. [34] proposed using different aggregation functions at dif-
+per is organized as follows. Section 2 summarizes the advances ferent search stages. MOEA/Ds have been successfully applied to a
+in generic MOEA designs. Algorithm frameworks, selection strate-
+number of application areas [33,35–42].
+gies,andoffspringreproductionoperatorsaresurveyedinthissec-
+tion. In Section 3, MOEAs for some complicated problems, such
+2.1.2. MOEAs based on preference
+asconstrainedMOPs,multimodalproblems,many-objectiveprob-
+lems,expensiveMOPs,anddynamicandnoisyMOPs,areoutlined. Due to the conflicts among the objectives in MOPs, the total
+The benchmark problems and algorithm performance measures number of Pareto optimal solutions might be very large or even
+are surveyed in Section 4. Section 5 briefly discusses the applica- infinite. However, the DM may be only interested in preferred
+tions of MOEAs. Finally, the paper is concluded in Section 6 with solutions instead of all Pareto optimal solutions. To find the
+some potential directions for future research. preferred solutions, the preference information is needed to
+guide the search towards the region of the PF of interest to
+the DM. Based on the role of the DM in the solution process,
+2. Advances in MOEA design
+multiobjective optimization methods can be classified into priori
+methods, posteriori methods, and interactive methods [2].
+In this section, recent developments, including algorithm
+frameworks, selection and population updating strategies, off- In a priori method, preference information is given by the
+spring reproduction schemes, and other related issues, are sur- DM before the solution process. An MOP can be converted into
+veyed. an SOP. Then, a scalar objective solver is applied to find the
+desired Pareto optimal solution. A posteriori method uses the
+DM’s preference information after the search process. A well-
+2.1. Algorithm frameworks
+distributedapproximationofthePFisfirstobtained.Then,theDM
+selectsthemostpreferredsolutionsbasedonthepreferences.Inan
+The algorithm framework is a key issue to design an MOEA. A
+interactivemethod,theintermediatesearch resultsarepresented
+majority of MOEAs in both the research and the application areas
+totheDMtoinvestigate;thentheDMcanunderstandtheproblem
+share more or less the same framework as that of non-dominated
+better and provide more preference information for guiding the
+sorting genetic algorithm II (NSGA-II) [27]: a selection operator
+search.
+based on Pareto domination and a reproduction operator are used
+iteratively. In this section, we introduce some frameworks which The earliest attempts on MOEAs based on the DM’s preference
+are different from that of NSGA-II. were made by Fonseca and Fleming [43] and Tanino et al. [44] in
+1993.Inthesealgorithms,therankofthemembersofapopulation
+2.1.1. An MOEA based on decomposition: MOEA/D is determined by both the Pareto dominance and the preference
+information from the DM. In [45], Greenwood et al. used value
+A multiobjective evolutionary algorithm based on decomposition
+(MOEA/D)[28]isarecentmultiobjectiveevolutionaryalgorithmic functions to rank the population, and preference information was
+framework. It is based on conventional aggregation approaches in also used in the survival criteria.
+which an MOP is decomposed into a number of scalar objective Sakawa and Kato [46] used a fuzzy approach to represent
+optimizationproblems(SOPs).TheobjectiveofeachSOP,alsocalled preference in the form of reference points. The DM is asked to
+a subproblem, is a (linearly or nonlinearly) weighted aggregation specifyanewreferencepointuntilsatisfactoryresultsarereached.
+of the individual objectives. Neighborhood relations among these PhelpsandKöksalan[47]comparedapairofindividualsintermsof
+subproblems are defined based on the distances between their theirfitnessvaluesbasedontheDM’spreferencesateachiteration.
+aggregation weight vectors. Subproblem i is a neighbor of Asinglesubstituteobjectivedefinedbyweightedsumofobjectives
+subproblem j if the weight vector of subproblem i is close to that is used for some generations.
+of subproblem j. Each subproblem is optimized in the MOEA/D by In [48], Branke and Deb incorporated the preference informa-
+using information mainly from its neighboring subproblems. tion into NSGA-II by modifying the definition of dominance and
+InasimpleversionoftheMOEA/D,eachindividualsubproblem using a biased crowding distance based on weights. Deb et al. [49]
+keeps one solution in its memory, which could be the best further considered the use of reference points to determine pref-
+solution found so far for the subproblem. For each subproblem, erence information. A guided dominance scheme and a biased
+the algorithm generates a new solution by performing genetic crowding scheme are also suggested. In [50], Deb et al. suggested
+operators on several solutions from its neighboring subproblems, an interactive MOEA based on reference directions. The DM pro-
+and updates its memory if the new solution is better than old one videsoneormorereferencedirectionstoguidethesearchtowards
+forthesubproblem.Asubproblemalsopassesitsnewlygenerated the region of preferred solution.
+
+
+--- PAGE 2 ---
+
+34 A.Zhouetal./SwarmandEvolutionaryComputation1(2011)32–49
+Deb and Chaudhuri [51] proposed an interactive decision sup- algorithms.Differentobjectivereductionstrategiesarestudiedfor
+port system called I-MODE, in which a number of existing multi- improving the performance of hypervolume-based MOEAs.
+objectiveoptimizationandclassicaldecision-makingmethodscan In [60], Bader and Zitzler suggested a fast hypervolume-based
+beappropriatelyadoptedforgeneratingsolutionsintheregionsof MOEA for many-objective optimization. To reduce the computa-
+interest in the PS. For example, the weighted sum approach and tionaloverheadinhypervolumecomputation,afastmethodbased
+weighted Tchebycheff approach may be used to deal with non- on Monte Carlo simulations is proposed to estimate the hyper-
+convexity of the PF. volume value of an approximation set. Therefore, the proposed
+Li and Silva [52] developed an improved version of an MOEA/D hypervolume-basedMOEAmaybeappliedtoproblemswithmany
+combined with SA. In this version, the weights can be adaptively objectives.
+changed by the DM according to the location of solutions in the Very recently, Bader and Zitzler [61] further investigated the
+current population. The fitness functions with modified weights robustnessofhypervolume-basedmultiobjective searchmethods.
+can guide the search towards different parts of the PF during the Three existing approaches for handling robustness in the area
+search. It can be viewed as an interactive MOEA. of evolutionary computing, modifying the objective functions,
+Sanchis et al. [53] proposed an MOEA integrated with priori additional objectives, and additional robustness constraints, are
+preferences, which were generated by applying the principle integrated into a multiobjective hypervolume-based search. An
+of physical programming. In this algorithm, the preferences are extensionofthehypervolumeindicatorisalsoproposedforrobust
+expressed by partitioning the objective space into several levels. multiobjective optimization.
+ThepreferencefunctionsarebuilttoreflecttheDM’sinterestsand
+to use meaningful parameters for each objective. The designer’s 2.1.4. Hybrid MOEAs
+expert knowledge can be translated into preferences for design In MOEAs, there are many techniques which have different
+objectives. A scalar objective is automatically built and no weight characteristics and advantages. Hybridizing these techniques is
+selection is performed. thus a natural choice to utilize their advantages for dealing with
+In [54], Deb et al. proposed a progressively interactive MOEA. complicated MOPs. What techniques to use and how to hybridize
+In this method, an approximate value function is progressively them are two major problems to solve when designing a hybrid
+generated after every few generations. Periodically, several non- MOEA. Some recent work could thus be categorized as follows.
+dominated points found so far are provided to the DM. Based on Hybridizing different search methods: A general idea is to com-
+the DM’s preference information, all these points are ranked from bine global search and local search methods, known as the
+theworsttothebest.Then,asuitablepolynomialvaluefunctionis memetic approach, elaborated in Section 2.1.5. Another widely
+constructed by solving an SOP. used idea is to combine the search operators of different algo-
+In [55], Rachmawati and Srinivasan proposed a preference- rithms. PSO and EA are hybridized in [62]. In each generation, the
+based MOEA to find the knee region in the PF, which is visually a solutions generated by a PSO (EA) operator are then improved by
+convex bulge in the front. The preference-based focus is achieved an EA (PSO) operator. In [63], quantum operators are applied to
+by optimizing a set of linear weighted sums of the original solutions in binary representation and a genetic operator is then
+objectives, and control of the extent of the focus is attained applied to the good solutions in permutation representation.
+by careful selection of the weight set based on a user-specified Hybridizing search and updating methods: This strategy hy-
+parameter. The fitness scheme could be easily adopted in any bridizes different components from different algorithms. For ex-
+Pareto-based MOEA with little additional computational cost. ample,in[62],thePSO’soperatorisinsertedintoanEA’smainloop.
+Thiele et al. [56] used the DM’s preferences expressed interac- Hybridizing different methods in different search phases: In the
+tivelyintheformofreferencepoints.Theinformationisusedinan above two strategies, the hybrid methods are used in each gen-
+EAtogenerateanewpopulationbycombiningthefitnessfunction eration. It is also natural to partition a search process into differ-
+and an 
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)
