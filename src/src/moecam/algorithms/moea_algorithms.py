@@ -1,4 +1,3 @@
-
 import numpy as np
 from ..problems.test_functions import ZDT1
 from ..metrics.performance_metrics import pareto_front
@@ -124,7 +123,7 @@ class MOEAD:
     def optimize(self):
         # Simplified MOEA/D for demonstration
         population = np.random.rand(self.pop_size, self.problem.n_dim)
-        
+
         # Initialize ideal point by evaluating initial population
         initial_objectives = np.array([self.problem.evaluate(ind) for ind in population])
         ideal_point = np.min(initial_objectives, axis=0)

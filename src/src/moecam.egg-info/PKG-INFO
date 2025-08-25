@@ -1,0 +1,103 @@
+Metadata-Version: 2.4
+Name: moecam
+Version: 0.1.0
+Summary: Multi-Objective Evolutionary Comparison and Analysis Module
+Home-page: https://github.com/smartpour/moecam
+Author: Kartik Sangwan
+Author-email: s224247523@deakin.edu.in
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: matplotlib>=3.3.0
+Requires-Dist: cffi>=1.14.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.10; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# MOECAM: Multi-Objective Evolutionary Comparison and Analysis Module
+
+MOECAM is a comprehensive Python package for multi-objective optimization that provides a unified interface to various multi-objective evolutionary algorithms (MOEAs) and test problems. The package is designed to facilitate research and comparison of different multi-objective optimization approaches.
+
+## Features
+
+- **Multiple Algorithms**: Implementations of popular MOEAs including NSGA-II and MOEA/D
+- **Test Problems**: Comprehensive suite of test functions including ZDT, DTLZ, and WFG series
+- **Performance Metrics**: Built-in metrics for evaluating algorithm performance (Pareto front, hypervolume, etc.)
+- **C++ Integration**: CFFI-based interface for integrating high-performance C++ algorithms
+- **Visualization**: Tools for plotting Pareto fronts and analyzing results
+- **Scalable**: Support for problems with varying dimensions and objectives
+
+## Installation
+
+```bash
+pip install moecam
+```
+
+## Quick Start
+
+```python
+from moecam.problems.test_functions import ZDT1
+from moecam.algorithms.moea_algorithms import NSGAII
+from moecam.metrics.performance_metrics import hypervolume
+
+# Define problem
+problem = ZDT1(n_dim=30)
+
+# Initialize algorithm
+algorithm = NSGAII(problem, pop_size=100, num_generations=250)
+
+# Run optimization
+pareto_front = algorithm.optimize()
+
+# Calculate performance metrics
+reference_point = [1.1, 1.1]
+hv = hypervolume(pareto_front, reference_point)
+print(f"Hypervolume: {hv}")
+```
+
+## Documentation
+
+For detailed documentation, examples, and API reference, please visit our [documentation site](https://moecam.readthedocs.io).
+
+## Contributing
+
+We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Citation
+
+If you use MOECAM in your research, please cite:
+
+```bibtex
+@software{moecam2024,
+  title={MOECAM: Multi-Objective Evolutionary Comparison and Analysis Module},
+  author={Kartik Sangwan},
+  year={2024},
+  url={https://github.com/smartpour/moecam}
+}
+```
