@@ -5,6 +5,14 @@
 #include <functional>
 #include <cstring>
 
+// Callback type definition: C-compatible function pointer.
+// The callback receives:
+//  - x: pointer to decision vector (length n_dim)
+//  - n_dim: number of decision variables
+//  - f: pointer to objective vector to be written (length n_obj)
+//  - n_obj: number of objectives
+typedef void (*objective_callback_t)(const double* x, int n_dim, double* f, int n_obj);
+
 // C++ class for Multi-Objective Optimization
 class MOOptimizer {
 private:
@@ -14,10 +22,14 @@ private:
     std::vector<double> upper_bounds;
     std::mt19937 rng;
     std::uniform_real_distribution<double> dist;
+    objective_callback_t callback; // May be null
 
 public:
-    MOOptimizer(int dimensions, int objectives, double* lb, double* ub)
-        : n_dim(dimensions), n_obj(objectives), rng(42), dist(0.0, 1.0) {
+    MOOptimizer(int dimensions, int objectives, double* lb, double* ub, objective_callback_t cb)
+        : n_dim(dimensions), n_obj(objectives), rng(42), dist(0.0, 1.0), callback(cb) {
+        if (!callback) {
+            throw std::runtime_error("Objective callback cannot be null");
+        }
         lower_bounds.assign(lb, lb + dimensions);
         upper_bounds.assign(ub, ub + dimensions);
     }
@@ -53,6 +65,22 @@ public:
 
     int get_dimensions() const { return n_dim; }
     int get_objectives() const { return n_obj; }
+
+    void set_callback(objective_callback_t cb) {
+        if (!cb) {
+            throw std::runtime_error("Cannot set null callback");
+        }
+        callback = cb;
+    }
+
+    void evaluate(const double* x, double* f_out) {
+        callback(x, n_dim, f_out, n_obj);
+    }
+
+    void evaluate_random(double* x, double* f_out) {
+        generate_random_solution(x);
+        evaluate(x, f_out);
+    }
 };
 
 // Global storage for optimizer instances
@@ -69,8 +97,11 @@ extern "C" {
     }
 
     // New optimizer interface
-    int create_optimizer(int n_dim, int n_obj, double* lower_bounds, double* upper_bounds) {
-        MOOptimizer* opt = new MOOptimizer(n_dim, n_obj, lower_bounds, upper_bounds);
+    int create_optimizer(int n_dim, int n_obj, double* lower_bounds, double* upper_bounds, objective_callback_t callback) {
+        if (!callback) {
+            return -1; // Invalid handle to indicate error
+        }
+        MOOptimizer* opt = new MOOptimizer(n_dim, n_obj, lower_bounds, upper_bounds, callback);
         optimizers.push_back(opt);
         return optimizers.size() - 1;  // Return handle/index
     }
@@ -113,6 +144,27 @@ extern "C" {
             return optimizers[handle]->get_objectives();
         }
         return 0;
+    }
+
+    // Set objective callback for an optimizer instance
+    void set_objective_callback(int handle, objective_callback_t cb) {
+        if (handle >= 0 && handle < optimizers.size() && optimizers[handle]) {
+            optimizers[handle]->set_callback(cb);
+        }
+    }
+
+    // Evaluate provided solution (decision vector) -> objective vector
+    void evaluate_solution(int handle, const double* solution, double* objectives) {
+        if (handle >= 0 && handle < optimizers.size() && optimizers[handle]) {
+            optimizers[handle]->evaluate(solution, objectives);
+        }
+    }
+
+    // Generate random solution internally then evaluate via callback (both returned)
+    void evaluate_random_solution_with_objectives(int handle, double* solution, double* objectives) {
+        if (handle >= 0 && handle < optimizers.size() && optimizers[handle]) {
+            optimizers[handle]->evaluate_random(solution, objectives);
+        }
     }
 }
 
