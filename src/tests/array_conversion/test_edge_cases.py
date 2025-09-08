@@ -6,7 +6,8 @@ import sys
 import os
 import time
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src', 'src'))
+# Add package path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from moecam.core.cffi_interface import CppOptimizer, convert_py_float_to_cffi
 
 def test_edge_cases():

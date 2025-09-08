@@ -14,7 +14,7 @@ import sys
 import os
 
 # Add package to path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from moecam.core.cffi_interface import CppOptimizer, convert_py_float_to_cffi, convert_py_int_to_cffi
 
 def test_array_conversions():
