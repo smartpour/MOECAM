@@ -18,6 +18,31 @@ except ImportError:
     # Handle missing modules gracefully during development
     pass
 
+# Import main MOECAM interfaces for easy access
+try:
+    from .algorithms import (
+        minimize_ecam,
+        minimize_random_start,
+        direct_optimize,
+        MOECAMDirectInterface
+    )
+    from .core import (
+        extract_pareto_front,
+        calculate_hypervolume,
+        WFGHypervolume
+    )
+    __all__ = [
+        'minimize_ecam',
+        'minimize_random_start',
+        'direct_optimize',
+        'MOECAMDirectInterface',
+        'extract_pareto_front',
+        'calculate_hypervolume',
+        'WFGHypervolume'
+    ]
+except ImportError:
+    __all__ = []
+
 __all__ = [
     "algorithms",
     "problems",

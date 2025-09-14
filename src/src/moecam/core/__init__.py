@@ -13,7 +13,19 @@ try:
 except ImportError:
     pass
 
+try:
+    from .moecam_direct import (
+        extract_pareto_front,
+        calculate_hypervolume,
+        WFGHypervolume
+    )
+except ImportError:
+    pass
+
 __all__ = [
     "cffi_interface",
-    "cpp_bindings"
+    "cpp_bindings",
+    "extract_pareto_front",
+    "calculate_hypervolume",
+    "WFGHypervolume"
 ]

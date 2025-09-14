@@ -22,14 +22,9 @@ class ParetoFrontExtractor:
                                 If None, attempts to compile from source.
         """
         self.cpp_path = cpp_executable_path
-        # Get the root directory of the project - look in current directory first
-        local_exe = Path(__file__).parent / "paretofront"
-        if local_exe.exists():
-            self.source_dir = Path(__file__).parent
-        else:
-            # Fall back to original location
-            root_dir = Path(__file__).parent.parent.parent.parent
-            self.source_dir = root_dir / "csources" / "pareto"
+        # Get the root directory of the project (4 levels up from src/src/moecam/core)
+        root_dir = Path(__file__).parent.parent.parent.parent
+        self.source_dir = root_dir / "csources" / "pareto"
 
         if self.cpp_path is None:
             self.cpp_path = self._compile_executable()

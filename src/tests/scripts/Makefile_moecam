@@ -1,0 +1,63 @@
+# Makefile for MOECAM Python Interface
+
+CXX = g++
+CC = gcc
+CXXFLAGS = -std=c++17 -O3 -Wall -fPIC -DUSE_ECAM
+CFLAGS = -std=c99 -O3 -Wall -fPIC
+
+# Paths
+MOECAM_DIR = ../../../csources/moecam
+DIRECT_DIR = $(MOECAM_DIR)/DIRECT-MASTER/src
+WFG_DIR = ../../../csources/wfg/WFG_1.15
+
+# Include directories
+INCLUDES = -I$(MOECAM_DIR) -I$(DIRECT_DIR) -I$(WFG_DIR)
+
+# Source files
+MOECAM_SOURCES = $(MOECAM_DIR)/gansoc.cpp
+DIRECT_SOURCES = $(DIRECT_DIR)/DIRect.c $(DIRECT_DIR)/DIRserial.c $(DIRECT_DIR)/DIRsubrout.c
+INTERFACE_SOURCES = moecam_python_interface.cpp
+
+# Object files
+MOECAM_OBJECTS = gansoc.o
+DIRECT_OBJECTS = DIRect.o DIRserial.o DIRsubrout.o
+INTERFACE_OBJECTS = moecam_python_interface.o
+
+# Targets
+all: libmoecam.so test_moecam_interface
+
+# Compile MOECAM sources
+gansoc.o: $(MOECAM_DIR)/gansoc.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $(MOECAM_DIR)/gansoc.cpp -o gansoc.o
+
+# Compile DIRECT sources
+DIRect.o: $(DIRECT_DIR)/DIRect.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $(DIRECT_DIR)/DIRect.c -o DIRect.o
+
+DIRserial.o: $(DIRECT_DIR)/DIRserial.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $(DIRECT_DIR)/DIRserial.c -o DIRserial.o
+
+DIRsubrout.o: $(DIRECT_DIR)/DIRsubrout.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $(DIRECT_DIR)/DIRsubrout.c -o DIRsubrout.o
+
+# Compile interface
+moecam_python_interface.o: moecam_python_interface.cpp moecam_python_interface.h
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c moecam_python_interface.cpp -o moecam_python_interface.o
+
+# Create shared library
+libmoecam.so: $(MOECAM_OBJECTS) $(DIRECT_OBJECTS) $(INTERFACE_OBJECTS)
+	$(CXX) -shared -fPIC $^ -o $@
+
+# Test program
+test_moecam_interface: test_moecam_interface.cpp libmoecam.so
+	$(CXX) $(CXXFLAGS) $(INCLUDES) test_moecam_interface.cpp -L. -lmoecam -o test_moecam_interface
+
+# Clean
+clean:
+	rm -f *.o libmoecam.so test_moecam_interface
+
+# Install (copy to main directory)
+install: libmoecam.so
+	cp libmoecam.so ../../../
+
+.PHONY: all clean install
