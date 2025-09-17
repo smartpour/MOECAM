@@ -1,0 +1,26 @@
+MOECAM Complete Working Demonstration - Summary Report
+============================================================
+
+Function: ZDT1
+  Evaluations: 1000
+  Total points: 1000
+  Pareto points: 9
+  Pareto ratio: 0.90%
+  Hypervolume: 0.148662
+  Reference point: [1.1 1.1]
+
+Function: ZDT2
+  Evaluations: 500
+  Total points: 500
+  Pareto points: 8
+  Pareto ratio: 1.60%
+  Hypervolume: 0.097412
+  Reference point: [1.1 1.1]
+
+Generated Files:
+- *_all_solutions.txt: All evaluated decision variables
+- *_all_objectives.txt: All objective function evaluations
+- *_pareto_front.txt: Extracted Pareto optimal points
+- *_pareto_indices.txt: Indices of Pareto optimal points
+- *_hypervolume.txt: Hypervolume calculation results
+- *_complete_analysis.png: Visualization plots

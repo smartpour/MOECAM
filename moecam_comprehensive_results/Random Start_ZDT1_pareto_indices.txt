@@ -1,0 +1,7 @@
+# Random Start on ZDT1 - Pareto Front Indices
+35.000000
+56.000000
+60.000000
+64.000000
+86.000000
+143.000000

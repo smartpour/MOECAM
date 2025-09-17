@@ -1,4 +1,8 @@
 from setuptools import setup, find_packages
+from build_cffi import build_moecam_extension
+
+# Build CFFI extension
+ffibuilder = build_moecam_extension()
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -42,7 +46,11 @@ setup(
     },
     include_package_data=True,
     package_data={
-        "moecam.core": ["*.so", "*.dll", "*.dylib"],
+        "moecam": ["*.so", "*.dll", "*.dylib"],
     },
+    # CFFI extension setup
+    setup_requires=["cffi>=1.14.0"],
+    cffi_modules=["build_cffi.py:ffibuilder"],
+    zip_safe=False,
 )
 

@@ -25,36 +25,11 @@ def build_moecam_extension():
         double add(double a, double b);
         void print_message(const char* message);
 
-        // Optimizer interface
-        int create_optimizer(int n_dim, int n_obj, double* lower_bounds, double* upper_bounds, objective_callback_t callback);
-        void destroy_optimizer(int handle);
-        void generate_random_solution(int handle, double* solution);
-        void crossover_solutions(int handle, const double* parent1, const double* parent2, double* child1, double* child2);
-        void mutate_solution(int handle, double* individual, double mutation_rate);
-        void evaluate_solution(int handle, const double* solution, double* objectives);
-
-        // MOECAM Algorithms
-        typedef struct {
-            int algorithm_id;
-            int n_dim;
-            int n_obj;
-            int max_iterations;
-            double* lower_bounds;
-            double* upper_bounds;
-            objective_callback_t objective_func;
-        } moecam_config_t;
-
-        int moecam_init(moecam_config_t* config);
-        int moecam_run_ecam(int config_id, double* best_solution, double* best_objectives,
-                           double* all_solutions, double* all_objectives, int* num_evaluations);
-        int moecam_run_random_start(int config_id, double* best_solution, double* best_objectives,
-                                   double* all_solutions, double* all_objectives, int* num_evaluations);
-        int moecam_run_direct(int config_id, double* best_solution, double* best_objective, int* num_evaluations);
-        void moecam_cleanup(int config_id);
-
         // Pareto Front Extraction
         int extract_pareto_front(double* all_points, int num_points, int num_objectives,
-                                double* pareto_points, int max_pareto_points);
+                                double* pareto_points, int max_pareto_points, int strict_mode);
+        int extract_pareto_indices(double* all_points, int num_points, int num_objectives,
+                                  int* pareto_indices, int max_pareto_points, int strict_mode);
 
         // WFG Hypervolume
         int wfg_init(int num_objectives, int max_points);
@@ -64,11 +39,12 @@ def build_moecam_extension():
 
     # Find source directory
     this_dir = Path(__file__).parent
-    src_dir = this_dir / "src" / "src" / "moecam" / "core"
-    scripts_dir = this_dir / "src" / "tests" / "scripts"
-    wfg_dir = this_dir / "csources" / "wfg" / "WFG_1.15"
+    src_dir = this_dir / "src" / "moecam" / "core"
+    csources_dir = this_dir.parent / "csources"
+    moecam_sources_dir = csources_dir / "moecam"
+    wfg_dir = csources_dir / "wfg" / "WFG_1.15"
 
-    # Collect all C++ source files
+    # Collect all C++ source files that will be compiled together
     sources = []
 
     # Add toy example (existing working code)
@@ -76,46 +52,62 @@ def build_moecam_extension():
     if toy_cpp.exists():
         sources.append(str(toy_cpp))
 
-    # Add MOECAM algorithms wrapper
-    moecam_cpp = scripts_dir / "moecam_wrapper.cpp"
-    if moecam_cpp.exists():
-        sources.append(str(moecam_cpp))
+    # Add our wrapper files (skip MOECAM for now due to complex dependencies)
+    pareto_wrapper = src_dir / "pareto_wrapper.cpp"
+    wfg_wrapper = src_dir / "wfg_wrapper.cpp"
 
-    # Add Pareto extraction wrapper
-    pareto_cpp = scripts_dir / "pareto_wrapper.cpp"
-    if pareto_cpp.exists():
-        sources.append(str(pareto_cpp))
+    if pareto_wrapper.exists():
+        sources.append(str(pareto_wrapper))
+    if wfg_wrapper.exists():
+        sources.append(str(wfg_wrapper))
 
     # Add WFG sources
     wfg_c = wfg_dir / "wfg.c"
     read_c = wfg_dir / "read.c"
-    if wfg_c.exists() and read_c.exists():
-        sources.extend([str(wfg_c), str(read_c)])
+    if wfg_c.exists():
+        sources.append(str(wfg_c))
+    if read_c.exists():
+        sources.append(str(read_c))
 
-    # Add WFG wrapper
-    wfg_cpp = scripts_dir / "wfg_wrapper.cpp"
-    if wfg_cpp.exists():
-        sources.append(str(wfg_cpp))
+    # TODO: Add MOECAM sources when dependencies are resolved
+    # gansoc_cpp = moecam_sources_dir / "gansoc.cpp"
+    # if gansoc_cpp.exists():
+    #     sources.append(str(gansoc_cpp))
 
     print(f"Building MOECAM extension with sources: {sources}")
 
-    # Set compiler arguments
-    include_dirs = [str(wfg_dir)] if wfg_dir.exists() else []
+    # Set compiler arguments and include directories
+    include_dirs = []
+    if wfg_dir.exists():
+        include_dirs.append(str(wfg_dir))
+    if moecam_sources_dir.exists():
+        include_dirs.append(str(moecam_sources_dir))
 
-    # Build the extension
+    # Prepare source content for inline compilation
+    source_content = """
+        // Include all necessary headers and implementations
+
+        // Toy example implementation
+        extern "C" {
+            double add(double a, double b) { return a + b; }
+            void print_message(const char* message) {
+                std::cout << "C++ says: " << message << std::endl;
+            }
+        }
+
+        // Include wrapper implementations
+        // Note: The actual implementations will be compiled from source files
+    """
+
+    # Build the extension - separate C and C++ compilation
     ffibuilder.set_source(
         "moecam._moecam_cffi",
-        """
-        // Include all necessary headers and implementations
-        #include "toy_cpp_lib.cpp"
-        #include "moecam_wrapper.cpp"
-        #include "pareto_wrapper.cpp"
-        #include "wfg_wrapper.cpp"
-        """,
+        source_content,
         sources=sources,
         include_dirs=include_dirs,
-        extra_compile_args=["-std=c++17", "-O3"],
-        extra_link_args=["-lstdc++"]
+        extra_compile_args=["-O3", "-DNDEBUG"],
+        extra_link_args=["-lstdc++", "-lm"],
+        libraries=["m"]  # Math library
     )
 
     return ffibuilder

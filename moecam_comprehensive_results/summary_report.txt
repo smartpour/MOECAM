@@ -1,0 +1,47 @@
+MOECAM Comprehensive Test Results Summary
+==================================================
+
+Test: ECAM_ZDT1
+  Algorithm: ECAM
+  Function: ZDT1
+  Success: True
+  Execution Time: 0.021 seconds
+  Function Evaluations: 250
+  Best Objectives: [0.53258943 1.20765262]
+  Pareto Front Size: 8
+  Hypervolume: 0.149959
+  Reference Point: [1.1 1.1]
+
+Test: Random Start_ZDT1
+  Algorithm: Random Start
+  Function: ZDT1
+  Success: True
+  Execution Time: 0.001 seconds
+  Function Evaluations: 150
+  Best Objectives: [0.88759346 1.49539646]
+  Pareto Front Size: 6
+  Hypervolume: 0.000000
+  Reference Point: [1.1 1.1]
+
+Test: ECAM_ZDT2
+  Algorithm: ECAM
+  Function: ZDT2
+  Success: True
+  Execution Time: 0.002 seconds
+  Function Evaluations: 250
+  Best Objectives: [0.24014562 2.06297014]
+  Pareto Front Size: 4
+  Hypervolume: 0.000000
+  Reference Point: [1.1 1.1]
+
+Test: ECAM_Fonseca-Fleming
+  Algorithm: ECAM
+  Function: Fonseca-Fleming
+  Success: True
+  Execution Time: 0.002 seconds
+  Function Evaluations: 250
+  Best Objectives: [0.51173056 0.87103147]
+  Pareto Front Size: 3
+  Hypervolume: 0.385652
+  Reference Point: [1.1 1.1]
+
