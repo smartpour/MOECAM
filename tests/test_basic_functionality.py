@@ -9,7 +9,7 @@ import sys
 import os
 
 # Add src to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'src'))
 
 from moecam.problems.test_functions import ZDT1, ZDT2, DTLZ1
 from moecam.algorithms.moea_algorithms import NSGAII, MOEAD
