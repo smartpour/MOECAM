@@ -1,3 +1,4 @@
 # ECAM on Fonseca-Fleming - Hypervolume
-# Reference point: [1.1 1.1]
-0.385652
+# Reference point (nadir): [2. 2.]
+# Note: For minimization problems, nadir = worst (highest) values
+3.272808

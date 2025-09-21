@@ -1,3 +1,4 @@
 # Random Start on ZDT1 - Hypervolume
-# Reference point: [1.1 1.1]
-0.000000
+# Reference point (nadir): [ 1.2 10. ]
+# Note: For minimization problems, nadir = worst (highest) values
+10.969209

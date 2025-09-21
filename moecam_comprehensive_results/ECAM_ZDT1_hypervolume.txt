@@ -1,3 +1,4 @@
 # ECAM on ZDT1 - Hypervolume
-# Reference point: [1.1 1.1]
-0.149959
+# Reference point (nadir): [ 1.2 10. ]
+# Note: For minimization problems, nadir = worst (highest) values
+11.049211

@@ -76,7 +76,7 @@ def minimize_ecam_cffi(objective_func, bounds: List[Tuple[float, float]],
     np.random.seed(42)  # For reproducible results
 
     n_dim = len(bounds)
-    n_samples = max_iterations * 5  # More samples for better coverage
+    n_samples = max_iterations * 5  # More samples for better coverage with higher iterations
 
     # Generate random samples
     solutions = []
@@ -120,7 +120,7 @@ def minimize_random_start_cffi(objective_func, bounds: List[Tuple[float, float]]
     np.random.seed(123)  # Different seed for comparison
 
     n_dim = len(bounds)
-    n_samples = max_iterations * 3  # Fewer samples but multiple starts
+    n_samples = max_iterations * 3  # Fewer samples but multiple starts with higher iterations
 
     solutions = []
     objectives = []
@@ -257,28 +257,55 @@ class MOECAMTestSuite:
 
     def plot_results(self, all_points: np.ndarray, pareto_points: np.ndarray,
                     true_pareto: np.ndarray, title: str, filename: str):
-        """Create visualization plots."""
-        plt.figure(figsize=(12, 8))
+        """Create visualization plots with clear minimization context."""
+        plt.figure(figsize=(14, 8))
+
+        # Create main plot
+        plt.subplot(1, 1, 1)
 
         # Plot all evaluated points
         plt.scatter(all_points[:, 0], all_points[:, 1],
-                   alpha=0.6, s=20, c='lightblue', label='All Evaluated Points')
+                   alpha=0.6, s=30, c='lightblue', label=f'All Evaluated Points ({len(all_points)})')
 
         # Plot Pareto front
         plt.scatter(pareto_points[:, 0], pareto_points[:, 1],
-                   alpha=0.8, s=50, c='red', label='Extracted Pareto Front')
+                   alpha=0.9, s=80, c='red', edgecolors='darkred', linewidth=1,
+                   label=f'Extracted Pareto Front ({len(pareto_points)})')
 
         # Plot true Pareto front if available
         if true_pareto is not None:
             sorted_idx = np.argsort(true_pareto[:, 0])
             plt.plot(true_pareto[sorted_idx, 0], true_pareto[sorted_idx, 1],
-                    'g-', linewidth=2, label='True Pareto Front')
+                    'g-', linewidth=3, alpha=0.8, label='True Pareto Front (Theoretical)')
 
-        plt.xlabel('Objective 1')
-        plt.ylabel('Objective 2')
-        plt.title(title)
-        plt.legend()
+        # Add annotations for minimization
+        plt.xlabel('Objective 1 (f₁) - MINIMIZE ↓', fontsize=12)
+        plt.ylabel('Objective 2 (f₂) - MINIMIZE ↓', fontsize=12)
+        plt.title(f'{title}\n(Minimization Problem: Lower values are better)', fontsize=14, pad=20)
+
+        # Add arrow indicating better direction
+        xlim = plt.xlim()
+        ylim = plt.ylim()
+        arrow_x = xlim[0] + 0.1 * (xlim[1] - xlim[0])
+        arrow_y = ylim[1] - 0.1 * (ylim[1] - ylim[0])
+        plt.annotate('Better solutions', xy=(arrow_x * 0.7, arrow_y * 0.7),
+                    xytext=(arrow_x, arrow_y),
+                    arrowprops=dict(arrowstyle='->', color='orange', lw=2),
+                    fontsize=10, color='orange', weight='bold')
+
+        plt.legend(loc='upper right')
         plt.grid(True, alpha=0.3)
+
+        # Add efficiency metrics if available
+        if len(pareto_points) > 0 and len(all_points) > 0:
+            efficiency = (len(pareto_points) / len(all_points)) * 100
+            plt.text(0.02, 0.98, f'Pareto Efficiency: {efficiency:.1f}%',
+                    transform=plt.gca().transAxes, fontsize=11,
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor="wheat", alpha=0.8),
+                    verticalalignment='top')
+
+        # Adjust layout
+        plt.tight_layout()
 
         # Save plot
         filepath = self.output_dir / filename
@@ -298,6 +325,24 @@ class MOECAMTestSuite:
             return np.column_stack([f1, f2])
         else:
             return None
+
+    def get_nadir_point(self, func_name: str, all_objectives: np.ndarray) -> np.ndarray:
+        """
+        Get appropriate nadir point (reference point) for hypervolume calculation.
+        For minimization problems, nadir should be worse than all evaluated points.
+        Uses conservative fixed values to ensure consistent comparison across algorithms.
+        """
+        if func_name in ["ZDT1", "ZDT2"]:
+            # For ZDT problems, use fixed conservative nadir points
+            # This ensures consistent hypervolume comparison across algorithms
+            # ZDT theoretical bounds: f1∈[0,1], f2∈[0,1], but actual max f2 can be higher
+            return np.array([1.2, 10.0])  # Conservative nadir for all ZDT algorithms
+        elif func_name == "Fonseca-Fleming":
+            # For Fonseca-Fleming, use fixed conservative nadir
+            return np.array([2.0, 2.0])
+        else:
+            # Generic approach: use 110% of maximum observed values
+            return np.max(all_objectives, axis=0) * 1.1
 
     def test_algorithm(self, algorithm_name: str, objective_func, bounds: List[Tuple[float, float]],
                       func_name: str, max_iterations: int = 100) -> Dict[str, Any]:
@@ -369,17 +414,19 @@ class MOECAMTestSuite:
                 f"{algorithm_name} on {func_name} - Pareto Front Indices"
             )
 
-            # Calculate hypervolume
+            # Calculate hypervolume with proper nadir point
             print("\n--- Calculating Hypervolume ---")
-            reference_point = np.array([1.1, 1.1])  # Reference point for hypervolume
+            reference_point = self.get_nadir_point(func_name, all_objectives)
             hypervolume = calculate_hypervolume_cffi(pareto_points, reference_point)
 
+            print(f"   Reference Point (Nadir): {reference_point}")
             print(f"   Hypervolume: {hypervolume:.6f}")
 
             # Save hypervolume result
             with open(self.output_dir / f"{algorithm_name}_{func_name}_hypervolume.txt", 'w') as f:
                 f.write(f"# {algorithm_name} on {func_name} - Hypervolume\n")
-                f.write(f"# Reference point: {reference_point}\n")
+                f.write(f"# Reference point (nadir): {reference_point}\n")
+                f.write(f"# Note: For minimization problems, nadir = worst (highest) values\n")
                 f.write(f"{hypervolume:.6f}\n")
 
             # Generate true Pareto front for comparison
@@ -423,35 +470,35 @@ class MOECAMTestSuite:
             print("❌ CFFI interface not available. Cannot run tests.")
             return
 
-        # Test configurations
+        # Test configurations with significantly higher function evaluations
         test_configs = [
             {
                 'algorithm': 'ECAM',
                 'function': 'ZDT1',
                 'objective_func': self.zdt1_function,
                 'bounds': [(0, 1)] * 5,  # 5-dimensional
-                'max_iterations': 50
+                'max_iterations': 2000  # Increased from 50 to 2000
             },
             {
                 'algorithm': 'Random Start',
                 'function': 'ZDT1',
                 'objective_func': self.zdt1_function,
                 'bounds': [(0, 1)] * 5,
-                'max_iterations': 50
+                'max_iterations': 2000  # Increased from 50 to 2000
             },
             {
                 'algorithm': 'ECAM',
                 'function': 'ZDT2',
                 'objective_func': self.zdt2_function,
                 'bounds': [(0, 1)] * 5,
-                'max_iterations': 50
+                'max_iterations': 2000  # Increased from 50 to 2000
             },
             {
                 'algorithm': 'ECAM',
                 'function': 'Fonseca-Fleming',
                 'objective_func': self.fonseca_fleming_function,
                 'bounds': [(-4, 4)] * 3,  # 3-dimensional
-                'max_iterations': 50
+                'max_iterations': 1500  # Increased from 50 to 1500
             }
         ]
 
@@ -529,24 +576,25 @@ class MOECAMTestSuite:
                 pareto_obj = result['pareto_front']
 
                 plt.scatter(all_obj[:, 0], all_obj[:, 1],
-                           alpha=0.6, s=20, c='lightblue', label='All Points')
+                           alpha=0.6, s=25, c='lightblue', label='All Points')
                 plt.scatter(pareto_obj[:, 0], pareto_obj[:, 1],
-                           alpha=0.8, s=50, c='red', label='Pareto Front')
+                           alpha=0.8, s=60, c='red', edgecolors='darkred',
+                           label='Pareto Front')
 
                 # Add true Pareto front
                 true_pareto = self.generate_true_pareto_front(func_name)
                 if true_pareto is not None:
                     sorted_idx = np.argsort(true_pareto[:, 0])
                     plt.plot(true_pareto[sorted_idx, 0], true_pareto[sorted_idx, 1],
-                            'g-', linewidth=2, label='True Pareto')
+                            'g-', linewidth=2, label='True Pareto', alpha=0.8)
 
-                plt.xlabel('Objective 1')
-                plt.ylabel('Objective 2')
-                plt.title(f"{result['algorithm']}\nHV: {result['hypervolume']:.4f}")
-                plt.legend()
+                plt.xlabel('Objective 1 (f₁) ↓', fontsize=10)
+                plt.ylabel('Objective 2 (f₂) ↓', fontsize=10)
+                plt.title(f"{result['algorithm']}\nHV: {result['hypervolume']:.4f}", fontsize=11)
+                plt.legend(fontsize=8)
                 plt.grid(True, alpha=0.3)
 
-            plt.suptitle(f"Algorithm Comparison on {func_name}")
+            plt.suptitle(f"Algorithm Comparison on {func_name} (Minimization Problem)", fontsize=14)
             plt.tight_layout()
 
             comparison_file = self.output_dir / f"{func_name}_comparison.png"
